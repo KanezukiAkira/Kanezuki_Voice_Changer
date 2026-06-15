@@ -24,6 +24,19 @@ def check_for_updates():
         response = requests.get(UPDATE_URL, timeout=5)
         if response.status_code == 200:
             data = response.json()
+            
+            # ----------------------------------------------
+            # CHỨC NĂNG KILL SWITCH (VÔ HIỆU HÓA TỪ XA)
+            # ----------------------------------------------
+            if data.get("disabled", False):
+                # Nếu bạn set "disabled": true trên Github, app sẽ báo lỗi và tự tắt
+                import tkinter as tk
+                from tkinter import messagebox
+                root = tk.Tk()
+                root.withdraw()
+                messagebox.showerror("Thông báo", data.get("disable_msg", "Phần mềm đã bị vô hiệu hóa bởi nhà phát triển."))
+                sys.exit(0)
+
             latest_version = data.get("version", current_version)
             if latest_version > current_version:
                 print(f"[UPDATER] Đã có phiên bản mới: {latest_version}. Đang tiến hành tải dữ liệu...")
