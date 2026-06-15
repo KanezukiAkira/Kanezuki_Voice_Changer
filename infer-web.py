@@ -710,7 +710,7 @@ def _install_routes_and_hooks():
                             html_path = os.path.join(script_dir, "frontend_extracted.html")
                             try:
                                 with open(html_path, "r", encoding="utf-8") as fh:
-                                    return HTMLResponse(content=fh.read())
+                                    pass # return HTMLResponse(content=fh.read())
                             except Exception as read_err:
                                 try:
                                     with open(os.path.join(script_dir, "wrapper_error.log"), "a", encoding="utf-8") as lf:
