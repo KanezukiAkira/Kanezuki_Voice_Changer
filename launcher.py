@@ -64,9 +64,8 @@ def check_for_updates():
                             if target_path and not member.endswith('/'):
                                 # Chỉ ghi đè các file không bị khóa
                                 try:
-                                    source = zip_ref.open(member)
-                                    target = open(target_path, "wb")
-                                    with source, target:
+                                    os.makedirs(os.path.dirname(target_path) or ".", exist_ok=True)
+                                    with zip_ref.open(member) as source, open(target_path, "wb") as target:
                                         shutil.copyfileobj(source, target)
                                 except Exception as write_err:
                                     print(f"Bỏ qua file đang được dùng: {target_path}")
