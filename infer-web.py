@@ -4,6 +4,24 @@
 
 import os
 import sys
+import shutil
+
+# --- AUTO CLEANUP LEGACY/JUNK FILES ---
+try:
+    _junk = ["go-web.bat", "go-web-release.bat", "test.py", "build_release.py", "build_release.pyc", "launcher.py"]
+    for _j in _junk:
+        if os.path.exists(_j):
+            os.remove(_j)
+            
+    _locale_dir = os.path.join("i18n", "locale")
+    if os.path.exists(_locale_dir):
+        for _f in os.listdir(_locale_dir):
+            if _f.endswith(".json") and _f not in ["vi_VN.json", "en_US.json"]:
+                os.remove(os.path.join(_locale_dir, _f))
+except:
+    pass
+# --------------------------------------
+
 import builtins
 import zipfile
 import shutil
