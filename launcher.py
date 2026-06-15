@@ -130,8 +130,14 @@ def run_app():
         stderr=subprocess.DEVNULL
     )
 
-    print("[APP] Chờ RVC khởi động (khoảng 8 giây)...")
-    time.sleep(8)
+    print("[APP] Chờ RVC khởi động (có thể mất một lúc ở lần đầu)...")
+    import socket
+    for _ in range(120):
+        try:
+            with socket.create_connection(("127.0.0.1", 7897), timeout=1):
+                break
+        except OSError:
+            time.sleep(1)
 
     import webview
     script_dir = os.path.dirname(os.path.abspath(__file__))
