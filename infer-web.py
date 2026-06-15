@@ -18,6 +18,17 @@ try:
         for _f in os.listdir(_locale_dir):
             if _f.endswith(".json") and _f not in ["vi_VN.json", "en_US.json"]:
                 os.remove(os.path.join(_locale_dir, _f))
+                
+    _docs_dir = "docs"
+    if os.path.exists(_docs_dir):
+        _doc_junks = ["fr", "jp", "kr", "tr", "小白简易教程.doc"]
+        for _d in _doc_junks:
+            _p = os.path.join(_docs_dir, _d)
+            if os.path.exists(_p):
+                if os.path.isdir(_p):
+                    shutil.rmtree(_p)
+                else:
+                    os.remove(_p)
 except:
     pass
 # --------------------------------------
