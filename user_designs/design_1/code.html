@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kanezuki - Huấn luyện Mô hình</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#283044",
+                        "on-secondary-fixed": "#23005c",
+                        "on-background": "#dae2fd",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00285d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-container": "#571bc1",
+                        "on-primary": "#002e6a",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "on-tertiary-container": "#00311f",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-primary-fixed": "#001a42",
+                        "secondary": "#d0bcff",
+                        "primary-container": "#4d8eff",
+                        "surface-container-low": "#131b2e",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c2c6d6",
+                        "tertiary-container": "#00a572",
+                        "tertiary": "#4edea3",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-secondary-container": "#c4abff",
+                        "on-secondary": "#3c0091",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container": "#171f33",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-primary": "#005ac2",
+                        "error-container": "#93000a",
+                        "background": "#0b1326",
+                        "outline-variant": "#424754",
+                        "surface": "#0b1326",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary": "#003824",
+                        "on-tertiary-fixed": "#002113",
+                        "on-surface": "#dae2fd",
+                        "surface-dim": "#0b1326",
+                        "outline": "#8c909f",
+                        "secondary-fixed": "#e9ddff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#adc6ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "md": "24px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "container-max": "1440px"
+                    },
+                    fontFamily: {
+                        "mono-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "mono-sm": ["13px", { lineHeight: "18px", fontWeight: "500" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for Console */
+        .console-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .console-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .console-scroll::-webkit-scrollbar-thumb {
+            background: #424754; 
+            border-radius: 4px;
+        }
+        .console-scroll::-webkit-scrollbar-thumb:hover {
+            background: #8c909f; 
+        }
+
+        /* Range Slider Styling based on Guidelines */
+        input[type=range].kanezuki-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range].kanezuki-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #adc6ff; /* Primary */
+            cursor: pointer;
+            margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+            box-shadow: 0 0 10px rgba(173, 198, 255, 0.6);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        input[type=range].kanezuki-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(173, 198, 255, 0.8);
+        }
+        input[type=range].kanezuki-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #060e20; /* Dark line */
+            border-radius: 2px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Glassmorphism utility for form inputs to ensure they look inset */
+        .input-inset {
+            background-color: #2d3449; /* surface-container-highest */
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .input-inset:focus {
+            outline: none;
+            border-color: #adc6ff; /* primary */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 1px #adc6ff;
+        }
+        
+        /* Decorative Background Blob */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Ambient Background Effects -->
+<div class="bg-blob w-[600px] h-[600px] bg-primary top-[-200px] right-[-100px]"></div>
+<div class="bg-blob w-[500px] h-[500px] bg-secondary-container bottom-[-100px] left-[200px]"></div>
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-[260px] border-r border-white/10 bg-surface-container-low/80 backdrop-blur-xl flex flex-col p-md z-50 shadow-2xl">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 mb-xl">
+<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary-container flex items-center justify-center shadow-[0_0_15px_rgba(173,198,255,0.3)]">
+<span class="text-on-primary font-headline-md font-bold">K</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary tracking-tight">Kanezuki</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">AI Voice Labs</p>
+</div>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Tab 1: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings_voice</span>
+<span class="text-label-md font-label-md">Biến đổi giọng nói</span>
+</a>
+<!-- Tab 2: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">graphic_eq</span>
+<span class="text-label-md font-label-md">Tách nhạc</span>
+</a>
+<!-- Tab 3: Active (Huấn luyện) -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 shadow-[0_0_20px_rgba(208,188,255,0.4)] transition-transform scale-95 origin-left" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">model_training</span>
+<span class="text-label-md font-label-md">Huấn luyện</span>
+</a>
+<!-- Tab 4: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">quiz</span>
+<span class="text-label-md font-label-md">Hỏi đáp</span>
+</a>
+</div>
+<!-- Footer / CTA area in Nav -->
+<div class="mt-auto flex flex-col gap-4">
+<button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container text-label-md font-label-md font-bold hover:brightness-110 transition-all shadow-[0_0_15px_rgba(87,27,193,0.3)]">
+                Nâng cấp Premium
+            </button>
+<div class="flex flex-col gap-1 border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                    Cài đặt
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                    Trợ giúp
+                </a>
+</div>
+</div>
+</nav>
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 border-b border-white/10 bg-surface/50 backdrop-blur-md z-40 flex justify-between items-center px-lg">
+<div class="flex items-center">
+<!-- Breadcrumb or Contextual Title -->
+<h2 class="text-headline-md font-headline-md text-on-surface">Huấn luyện Mô hình</h2>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="flex items-center gap-2 pl-4 border-l border-white/10 cursor-pointer group">
+<span class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tài khoản</span>
+<span class="material-symbols-outlined text-[24px] text-on-surface-variant group-hover:text-primary transition-colors">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-[88px] px-lg pb-xl min-h-screen">
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg max-w-container-max mx-auto">
+<!-- Left Column: Configuration Form (5 cols) -->
+<div class="md:col-span-5 flex flex-col gap-sm">
+<!-- Glassmorphic Card: Dataset & Basic Info -->
+<div class="bg-surface-container-low/60 backdrop-blur-xl rounded-xl border border-white/10 border-t-white/20 border-l-white/20 p-sm shadow-xl">
+<div class="flex items-center gap-2 mb-md border-b border-white/5 pb-sm">
+<span class="material-symbols-outlined text-primary">database</span>
+<h3 class="text-body-lg font-headline-md text-on-surface font-semibold">Dữ liệu &amp; Định danh</h3>
+</div>
+<div class="space-y-md">
+<!-- Tên ca sĩ -->
+<div class="flex flex-col gap-xs">
+<label class="text-label-md font-label-md text-on-surface-variant" for="modelName">Tên Mô hình / Ca sĩ</label>
+<input class="input-inset w-full rounded-lg px-4 py-2 text-body-sm text-on-surface placeholder:text-outline-variant transition-colors" id="modelName" placeholder="VD: Sơn Tùng M-TP, My Voice v1..." type="text"/>
+</div>
+<!-- Đường dẫn Dataset -->
+<div class="flex flex-col gap-xs">
+<label class="text-label-md font-label-md text-on-surface-variant" for="datasetPath">Đường dẫn Dataset (Thư mục .wav)</label>
+<div class="flex gap-2">
+<input class="input-inset w-full rounded-lg px-4 py-2 text-body-sm text-on-surface font-mono-sm" id="datasetPath" placeholder="/path/to/dataset" type="text"/>
+<button class="px-3 rounded-lg border border-white/10 hover:bg-white/5 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">folder_open</span>
+</button>
+</div>
+</div>
+<!-- Tần số lấy mẫu & Pitch -->
+<div class="grid grid-cols-2 gap-sm">
+<div class="flex flex-col gap-xs">
+<label class="text-label-md font-label-md text-on-surface-variant" for="sampleRate">Tần số lấy mẫu</label>
+<select class="input-inset w-full rounded-lg px-3 py-2 text-body-sm text-on-surface appearance-none cursor-pointer" id="sampleRate">
+<option class="bg-surface-container-high" value="32000">32000 Hz</option>
+<option class="bg-surface-container-high" selected="" value="40000">40000 Hz</option>
+<option class="bg-surface-container-high" value="48000">48000 Hz</option>
+</select>
+</div>
+<div class="flex flex-col gap-xs justify-between">
+<label class="text-label-md font-label-md text-on-surface-variant">Pitch Guidance (F0)</label>
+<div class="flex items-center gap-3 h-[38px]">
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"></div>
+</label>
+<span class="text-label-md font-label-md text-primary" id="f0Status">Bật</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Glassmorphic Card: Hyperparameters -->
+<div class="bg-surface-container-low/60 backdrop-blur-xl rounded-xl border border-white/10 border-t-white/20 border-l-white/20 p-sm shadow-xl flex-grow">
+<div class="flex items-center gap-2 mb-md border-b border-white/5 pb-sm">
+<span class="material-symbols-outlined text-tertiary">tune</span>
+<h3 class="text-body-lg font-headline-md text-on-surface font-semibold">Siêu tham số (Hyperparameters)</h3>
+</div>
+<div class="space-y-md">
+<!-- Epochs -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-label-md font-label-md text-on-surface-variant" for="epochs">Tổng số Epochs</label>
+<input class="input-inset w-20 text-center rounded bg-transparent py-1 text-label-md text-primary font-mono-sm" id="epochsInput" max="1000" min="1" type="number" value="100"/>
+</div>
+<input class="kanezuki-slider mt-2" id="epochsSlider" max="1000" min="1" type="range" value="100"/>
+</div>
+<!-- Batch Size -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-label-md font-label-md text-on-surface-variant" for="batchSize">Batch Size</label>
+<span class="text-label-md text-primary font-mono-sm" id="batchDisplay">8</span>
+</div>
+<input class="kanezuki-slider mt-2" id="batchSlider" max="32" min="1" step="1" type="range" value="8"/>
+</div>
+<!-- GPU Selection -->
+<div class="flex flex-col gap-xs pt-2">
+<label class="text-label-md font-label-md text-on-surface-variant" for="gpuSelect">Bộ xử lý (GPU)</label>
+<div class="relative">
+<select class="input-inset w-full rounded-lg px-4 py-3 text-body-sm text-on-surface appearance-none cursor-pointer pr-10" id="gpuSelect">
+<option class="bg-surface-container-high" value="0">NVIDIA GeForce RTX 4090 (24GB)</option>
+<option class="bg-surface-container-high" value="1">NVIDIA GeForce RTX 3090 (24GB)</option>
+<option class="bg-surface-container-high" value="cpu">CPU (Không khuyến nghị)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">memory</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Process & Console (7 cols) -->
+<div class="md:col-span-7 flex flex-col gap-sm h-[calc(100vh-140px)]">
+<!-- Process Status Bar -->
+<div class="bg-surface-container-low/60 backdrop-blur-xl rounded-xl border border-white/10 p-sm shadow-xl shrink-0">
+<div class="flex items-center justify-between">
+<!-- Steps -->
+<div class="flex items-center gap-2 flex-grow pr-md">
+<!-- Step 1 -->
+<div class="flex flex-col items-center gap-1 group">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-primary/20 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(173,198,255,0.3)]">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+</div>
+<span class="text-[10px] font-label-md text-primary text-center">Xử lý<br/>dữ liệu</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-[2px] bg-white/10 mb-5 relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-0 bg-primary transition-all duration-500" id="progressLine1"></div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center gap-1 opacity-50">
+<div class="w-8 h-8 rounded-full border-2 border-white/20 bg-transparent flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">graphic_eq</span>
+</div>
+<span class="text-[10px] font-label-md text-on-surface-variant text-center">Trích xuất<br/>đặc trưng</span>
+</div>
+<!-- Connector -->
+<div class="flex-grow h-[2px] bg-white/10 mb-5"></div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center gap-1 opacity-50">
+<div class="w-8 h-8 rounded-full border-2 border-white/20 bg-transparent flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">model_training</span>
+</div>
+<span class="text-[10px] font-label-md text-on-surface-variant text-center">Huấn luyện<br/>mô hình</span>
+</div>
+</div>
+<!-- Action Button -->
+<button class="px-6 py-3 rounded-lg bg-gradient-to-r from-[#005ac2] to-secondary-container text-white font-label-md text-body-sm shadow-[0_0_20px_rgba(87,27,193,0.5)] hover:brightness-125 transition-all flex items-center gap-2 whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            Bắt đầu Huấn luyện
+                        </button>
+</div>
+</div>
+<!-- Console Log Area -->
+<div class="bg-[#040812]/80 backdrop-blur-xl rounded-xl border border-white/10 border-t-white/20 border-l-white/20 p-sm shadow-inner flex-grow flex flex-col overflow-hidden relative">
+<!-- Terminal Header -->
+<div class="flex justify-between items-center mb-2 pb-2 border-b border-white/5 shrink-0">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">terminal</span>
+<h4 class="text-label-md font-label-md text-on-surface-variant tracking-wider">NHẬT KÝ HỆ THỐNG</h4>
+</div>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-white transition-colors" title="Clear Log">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+<button class="text-on-surface-variant hover:text-white transition-colors" title="Export Log">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</div>
+<!-- Log Content -->
+<div class="flex-grow overflow-y-auto console-scroll pr-2 text-mono-sm font-mono-sm text-[#a0a5b5] space-y-1">
+<p class="text-secondary-fixed-dim">[SYS] Khởi tạo môi trường Kanezuki AI Engine v3.2.1...</p>
+<p class="text-secondary-fixed-dim">[SYS] GPU được phát hiện: NVIDIA GeForce RTX 4090 (24GB VRAM)</p>
+<p class="text-tertiary">[INFO] Sẵn sàng nhận lệnh cấu hình.</p>
+<br/>
+<p class="text-on-surface-variant opacity-50 italic">-- Chờ thao tác từ người dùng --</p>
+<!-- Simulated active log (hidden by default, shown when running) -->
+<div class="hidden" id="simulatedLog">
+<p>[CMD] Đang đọc thư mục dataset: <span class="text-primary">/path/to/dataset</span></p>
+<p>[INFO] Tìm thấy 450 tệp âm thanh (.wav).</p>
+<p class="text-[#eab308]">[WARN] Tệp audio_012.wav có thời lượng quá ngắn (&lt;1s), sẽ bị bỏ qua.</p>
+<p>[INFO] Bắt đầu tiến trình: <span class="text-white">Xử lý Dữ liệu (Data Processing)</span></p>
+<p>[PROGRESS] Resampling audio -&gt; 40000Hz... [=====&gt;     ] 50%</p>
+</div>
+</div>
+<!-- Glowing Accent Line at bottom of console to simulate processing -->
+<div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-[calc(100%-260px)] ml-[260px] p-md border-t border-white/10 bg-surface-container-lowest flex justify-between items-center px-lg py-sm mt-auto relative z-40">
+<div class="text-label-md font-bold text-on-surface">
+            © 2024 Kanezuki AI. Bảo lưu mọi quyền.
+        </div>
+<div class="flex gap-4">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Điều khoản</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Bảo mật</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Liên hệ</a>
+</div>
+</footer>
+<!-- Simple Interactivity Scripts -->
+<script>
+        // Sync Epochs Slider & Input
+        const epochsSlider = document.getElementById('epochsSlider');
+        const epochsInput = document.getElementById('epochsInput');
+        
+        epochsSlider.addEventListener('input', (e) => {
+            epochsInput.value = e.target.value;
+        });
+        epochsInput.addEventListener('input', (e) => {
+            epochsSlider.value = e.target.value;
+        });
+
+        // Batch Size Display
+        const batchSlider = document.getElementById('batchSlider');
+        const batchDisplay = document.getElementById('batchDisplay');
+        batchSlider.addEventListener('input', (e) => {
+            batchDisplay.textContent = e.target.value;
+        });
+
+        // Toggle F0 Status text
+        const f0Toggle = document.querySelector('input[type="checkbox"]');
+        const f0Status = document.getElementById('f0Status');
+        f0Toggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                f0Status.textContent = 'Bật';
+                f0Status.classList.replace('text-on-surface-variant', 'text-primary');
+            } else {
+                f0Status.textContent = 'Tắt';
+                f0Status.classList.replace('text-primary', 'text-on-surface-variant');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kanezuki - Hỏi đáp & Hướng dẫn</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#283044",
+                    "on-secondary-fixed": "#23005c",
+                    "on-background": "#dae2fd",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-variant": "#2d3449",
+                    "on-primary-container": "#00285d",
+                    "surface-container-high": "#222a3d",
+                    "secondary-container": "#571bc1",
+                    "on-primary": "#002e6a",
+                    "secondary-fixed-dim": "#d0bcff",
+                    "on-error-container": "#ffdad6",
+                    "inverse-surface": "#dae2fd",
+                    "surface-bright": "#31394d",
+                    "on-tertiary-container": "#00311f",
+                    "on-secondary-fixed-variant": "#5516be",
+                    "on-primary-fixed": "#001a42",
+                    "secondary": "#d0bcff",
+                    "primary-container": "#4d8eff",
+                    "surface-container-low": "#131b2e",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#c2c6d6",
+                    "tertiary-container": "#00a572",
+                    "tertiary": "#4edea3",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-secondary-container": "#c4abff",
+                    "on-secondary": "#3c0091",
+                    "tertiary-fixed": "#6ffbbe",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "surface-container": "#171f33",
+                    "surface-container-lowest": "#060e20",
+                    "inverse-primary": "#005ac2",
+                    "error-container": "#93000a",
+                    "background": "#0b1326",
+                    "outline-variant": "#424754",
+                    "surface": "#0b1326",
+                    "surface-tint": "#adc6ff",
+                    "on-tertiary": "#003824",
+                    "on-tertiary-fixed": "#002113",
+                    "on-surface": "#dae2fd",
+                    "surface-dim": "#0b1326",
+                    "outline": "#8c909f",
+                    "secondary-fixed": "#e9ddff",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "primary": "#adc6ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "sm": "16px",
+                    "lg": "40px",
+                    "xl": "64px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "gutter": "20px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "mono-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.6); /* surface-container-low slightly more transparent */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top-color: rgba(255, 255, 255, 0.15);
+            border-left-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .neon-glow-primary {
+            box-shadow: 0 0 20px rgba(173, 198, 255, 0.4);
+        }
+        
+        .neon-glow-secondary {
+            box-shadow: 0 0 20px rgba(87, 27, 193, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #adc6ff, #d0bcff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1326; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3449; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #424754; 
+        }
+
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        .accordion-content.expanded {
+            max-height: 500px; /* Arbitrary large height */
+            opacity: 1;
+            padding-top: 16px;
+            padding-bottom: 16px;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-icon.rotated {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- App Container -->
+<div class="flex h-screen overflow-hidden">
+<!-- ========================================== -->
+<!-- SideNavBar (Shared Component)              -->
+<!-- ========================================== -->
+<nav class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-low/80 backdrop-blur-xl border-r border-white/10 shadow-2xl flex flex-col p-md z-50">
+<!-- Brand Logo -->
+<div class="flex items-center gap-3 mb-xl px-2">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center neon-glow-primary">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary tracking-tight">Kanezuki</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">AI Voice Labs</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex flex-col gap-2 flex-1">
+<!-- Tab 1: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-all duration-200 hover:bg-white/5 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings_voice</span>
+<span class="text-label-md font-label-md">Biến đổi giọng nói</span>
+</a>
+<!-- Tab 2: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-all duration-200 hover:bg-white/5 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">graphic_eq</span>
+<span class="text-label-md font-label-md">Tách nhạc</span>
+</a>
+<!-- Tab 3: Inactive -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-all duration-200 hover:bg-white/5 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">model_training</span>
+<span class="text-label-md font-label-md">Huấn luyện</span>
+</a>
+<!-- Tab 4: ACTIVE (Hỏi đáp) -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 shadow-[0_0_20px_rgba(208,188,255,0.4)] scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">quiz</span>
+<span class="text-label-md font-label-md font-bold">Hỏi đáp</span>
+</a>
+</div>
+<!-- Footer Navigation & CTA -->
+<div class="mt-auto flex flex-col gap-4">
+<!-- CTA Button -->
+<button class="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-primary to-secondary text-background font-label-md text-label-md font-bold hover:brightness-110 transition-all neon-glow-primary">
+                    Nâng cấp Premium
+                </button>
+<div class="flex flex-col gap-1 border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-all duration-200 hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-label-md font-label-md">Cài đặt</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-all duration-200 hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="text-label-md font-label-md">Trợ giúp</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- ========================================== -->
+<!-- Main Content Wrapper                       -->
+<!-- ========================================== -->
+<div class="flex-1 ml-[260px] flex flex-col min-w-0 h-full relative">
+<!-- Global Background Effects (Canvas level) -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-secondary-container/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-20%] left-[10%] w-[500px] h-[500px] bg-primary-container/10 rounded-full blur-[100px]"></div>
+</div>
+<!-- ========================================== -->
+<!-- TopAppBar (Shared Component)               -->
+<!-- ========================================== -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-surface/50 backdrop-blur-md border-b border-white/10 flex justify-between items-center px-lg z-40">
+<!-- Search Bar (Left) -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-high border border-white/5 rounded-full py-1.5 pl-10 pr-4 text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all" placeholder="Tìm kiếm tài liệu..." type="text"/>
+</div>
+<!-- Trailing Actions (Right) -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative group">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full group-hover:scale-110 transition-transform"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="w-px h-6 bg-white/10 mx-2"></div>
+<button class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+<span class="text-label-md font-label-md text-on-surface">Tài khoản</span>
+<span class="material-symbols-outlined text-[28px] text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- Scrollable Content Canvas                  -->
+<!-- ========================================== -->
+<main class="flex-1 mt-16 overflow-y-auto z-10 relative">
+<div class="p-lg max-w-container-max mx-auto space-y-md">
+<!-- Page Header -->
+<div class="mb-xl">
+<h2 class="text-headline-xl font-headline-xl text-on-surface gradient-text mb-2">Trung tâm Hỗ trợ & Hỏi đáp</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl">
+                            Tìm hiểu cách tối ưu hóa hiệu suất AI Voice, khắc phục sự cố âm thanh và kết nối với cộng đồng chuyên gia Kanezuki.
+                        </p>
+</div>
+<!-- Layout Grid: 8 cols Accordion, 4 cols Support Panel -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Left Column: Accordion Tutorials (Span 8) -->
+<div class="md:col-span-8 space-y-6">
+<!-- Accordion Container (Glassmorphic) -->
+<div class="glass-panel rounded-xl overflow-hidden">
+<!-- Item 1 -->
+<div class="border-b border-white/10 last:border-0">
+<button class="accordion-btn w-full text-left px-6 py-5 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-bright flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+</div>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface group-hover:text-primary transition-colors">Cách chỉnh Pitch (Cao độ) cho từng model</span>
+</div>
+<span class="material-symbols-outlined accordion-icon text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content px-6 bg-surface-container-high/30">
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+                                            Việc điều chỉnh Pitch rất quan trọng để khớp giọng gốc của bạn với AI Model.
+                                        </p>
+<ul class="list-disc list-inside mt-3 space-y-2 text-body-sm font-body-sm text-on-surface-variant ml-2">
+<li><strong class="text-on-surface">Nam sang Nữ:</strong> Tăng Pitch lên khoảng <span class="text-tertiary">+12</span> semitones.</li>
+<li><strong class="text-on-surface">Nữ sang Nam:</strong> Giảm Pitch xuống khoảng <span class="text-tertiary">-12</span> semitones.</li>
+<li><strong class="text-on-surface">Cùng giới tính:</strong> Thường giữ ở mức <span class="text-tertiary">0</span>, hoặc tinh chỉnh nhẹ +/- 1 đến 2 semitones tùy thuộc vào quãng giọng tự nhiên của bạn.</li>
+</ul>
+<div class="mt-4 p-3 bg-surface-bright rounded-lg border border-white/5 flex gap-3 items-start">
+<span class="material-symbols-outlined text-tertiary text-[20px] mt-0.5">lightbulb</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Mẹo: Sử dụng tính năng "Auto-Pitch" trong cài đặt nâng cao để phần mềm tự động dự đoán cao độ tốt nhất, tuy nhiên chỉnh tay vẫn mang lại kết quả tự nhiên nhất.</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="border-b border-white/10 last:border-0">
+<button class="accordion-btn w-full text-left px-6 py-5 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-bright flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-error text-[18px]">audio_file</span>
+</div>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface group-hover:text-primary transition-colors">Khắc phục lỗi rè tiếng / giật điện (Robotic Sound)</span>
+</div>
+<span class="material-symbols-outlined accordion-icon text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content px-6 bg-surface-container-high/30">
+<p class="text-body-md font-body-md text-on-surface-variant mb-3">
+                                            Âm thanh bị rè, ngắt quãng hoặc nghe như robot thường do quá tải CPU hoặc thiết lập luồng âm thanh chưa đúng. Hãy thử các bước sau:
+                                        </p>
+<ol class="list-decimal list-inside space-y-2 text-body-sm font-body-sm text-on-surface-variant ml-2">
+<li><strong>Kiểm tra thiết bị đầu vào (Mic):</strong> Đảm bảo mic không bị nhiễu vật lý. Tắt các hiệu ứng tăng âm (Boost) trong Windows Sound Settings.</li>
+<li><strong>Tăng Buffer Size:</strong> Nếu CPU của bạn yếu, hãy tăng Buffer Size lên <span class="text-primary">256</span> hoặc <span class="text-primary">512</span>. Lưu ý điều này sẽ làm tăng độ trễ (latency).</li>
+<li><strong>Chuyển đổi thuật toán F0:</strong> Đổi thuật toán trích xuất F0 từ <code>pm</code> (nhanh nhưng kém chính xác) sang <code>rmvpe</code> (chất lượng cao nhất) hoặc <code>harvest</code>.</li>
+<li><strong>Giảm noise:</strong> Bật bộ lọc tiếng ồn (Noise Gate) tích hợp sẵn để loại bỏ tạp âm môi trường trước khi xử lý AI.</li>
+</ol>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="border-b border-white/10 last:border-0">
+<button class="accordion-btn w-full text-left px-6 py-5 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-bright flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">speed</span>
+</div>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface group-hover:text-primary transition-colors">Tối ưu độ trễ (Latency) cho Livestream</span>
+</div>
+<span class="material-symbols-outlined accordion-icon text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content px-6 bg-surface-container-high/30">
+<p class="text-body-md font-body-md text-on-surface-variant mb-3">
+                                            Để sử dụng Kanezuki cho livestream hoặc chơi game thời gian thực, độ trễ cần ở mức dưới 100ms.
+                                        </p>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="p-4 bg-surface-container rounded-lg border border-white/5">
+<h4 class="text-label-md font-label-md text-on-surface mb-2">Phần cứng (GPU)</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Đảm bảo bạn đang chạy mô hình trên Card đồ họa rời (Nvidia/AMD) thay vì CPU. Chọn GPU trong phần Cài đặt hệ thống.</p>
+</div>
+<div class="p-4 bg-surface-container rounded-lg border border-white/5">
+<h4 class="text-label-md font-label-md text-on-surface mb-2">Trình điều khiển (Driver)</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Luôn sử dụng <strong class="text-primary">ASIO</strong> hoặc <strong class="text-primary">WASAPI (Exclusive Mode)</strong> thay vì DirectSound cũ của Windows.</p>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                                            Hạ Buffer Size xuống mức thấp nhất mà không bị rè tiếng (thường là 64 hoặc 128). Tắt các tùy chọn "Extra Processing" nếu không cần thiết.
+                                        </p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="border-b border-white/10 last:border-0">
+<button class="accordion-btn w-full text-left px-6 py-5 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-bright flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-secondary text-[18px]">hub</span>
+</div>
+<span class="text-body-lg font-body-lg font-semibold text-on-surface group-hover:text-primary transition-colors">Phối hợp mô hình & Index Rate</span>
+</div>
+<span class="material-symbols-outlined accordion-icon text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content px-6 bg-surface-container-high/30">
+<p class="text-body-md font-body-md text-on-surface-variant mb-3">
+                                            Index Rate kiểm soát mức độ rò rỉ âm sắc giọng thật của bạn vào giọng AI.
+                                        </p>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-label-md font-label-md mb-1">
+<span class="text-on-surface-variant">Giọng AI hoàn toàn (Index = 1)</span>
+<span class="text-primary">100%</span>
+</div>
+<div class="h-2 w-full bg-surface-bright rounded-full overflow-hidden">
+<div class="h-full bg-primary w-full"></div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Sử dụng tệp Index (.index) đi kèm mô hình để tái tạo chính xác giọng điệu gốc của AI. Khuyên dùng cho người mới.</p>
+</div>
+<div class="mt-4 pt-4 border-t border-white/5">
+<h4 class="text-label-md font-label-md text-on-surface mb-2">Bảo vệ phụ âm (Consonant Protection)</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Nếu AI phát âm các âm gió (s, sh, ch) bị méo, hãy kéo thanh "Protect" lên mức 0.33. Nếu để mức 0, giọng sẽ mềm hơn nhưng có thể mất âm gió.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Support Panels (Span 4) -->
+<div class="md:col-span-4 space-y-md">
+<!-- Discord CTA Card -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<!-- Background Glow -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-[#5865F2]/20 rounded-full blur-[50px] group-hover:bg-[#5865F2]/40 transition-all duration-500"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-[#5865F2]/10 rounded-full flex items-center justify-center mb-4 border border-[#5865F2]/30 neon-glow-secondary">
+<!-- Using forum icon as fallback for Discord if specific logo isn't in material symbols -->
+<span class="material-symbols-outlined text-[#5865F2] text-[32px]">forum</span>
+</div>
+<h3 class="text-headline-md font-headline-md font-bold text-on-surface mb-2">Cần hỗ trợ trực tiếp?</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-6">
+                                        Tham gia cộng đồng hàng ngàn người dùng Kanezuki. Nhận hỗ trợ kỹ thuật, chia sẻ model và mẹo tối ưu hóa ngay lập tức.
+                                    </p>
+<button class="w-full py-3 px-4 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] text-white font-label-md text-label-md font-bold transition-colors shadow-[0_0_15px_rgba(88,101,242,0.4)] flex items-center justify-center gap-2">
+<span>Tham gia cộng đồng Discord</span>
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- System Status Card -->
+<div class="bg-surface-container-low border border-white/5 rounded-xl p-5">
+<h3 class="text-label-md font-label-md text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#4edea3] animate-pulse"></span>
+                                    Trạng thái hệ thống
+                                </h3>
+<ul class="space-y-3">
+<li class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Máy chủ xác thực</span>
+<span class="text-label-md font-label-md text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">Online</span>
+</li>
+<li class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Cloud Inference</span>
+<span class="text-label-md font-label-md text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">Online</span>
+</li>
+<li class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Model Hub</span>
+<span class="text-label-md font-label-md text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">Online</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- Footer (Shared Component)                  -->
+<!-- ========================================== -->
+<footer class="w-full p-md border-t border-white/10 bg-surface-container-lowest mt-xl flex justify-between items-center px-lg py-sm">
+<div class="text-label-md font-bold text-on-surface">Kanezuki</div>
+<div class="text-tertiary text-label-md font-label-md">© 2024 Kanezuki AI. Bảo lưu mọi quyền.</div>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-tertiary text-label-md font-label-md transition-colors" href="#">Điều khoản</a>
+<a class="text-on-surface-variant hover:text-tertiary text-label-md font-label-md transition-colors" href="#">Bảo mật</a>
+<a class="text-on-surface-variant hover:text-tertiary text-label-md font-label-md transition-colors" href="#">Liên hệ</a>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Accordion Interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionBtns = document.querySelectorAll('.accordion-btn');
+            
+            accordionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Find the associated content panel
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.accordion-icon');
+                    
+                    // Toggle expanded class on content
+                    content.classList.toggle('expanded');
+                    
+                    // Toggle rotation on icon
+                    icon.classList.toggle('rotated');
+                    
+                    // Optional: Close other accordions (accordion behavior)
+                    /*
+                    accordionBtns.forEach(otherBtn => {
+                        if (otherBtn !== btn) {
+                            otherBtn.nextElementSibling.classList.remove('expanded');
+                            otherBtn.querySelector('.accordion-icon').classList.remove('rotated');
+                        }
+                    });
+                    */
+                });
+            });
+            
+            // Open the first one by default for demonstration
+            if(accordionBtns.length > 0) {
+                accordionBtns[0].click();
+            }
+        });
+    </script>
+</body></html>

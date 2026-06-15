@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kanezuki - Tách nhạc UVR5</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#283044",
+                        "on-secondary-fixed": "#23005c",
+                        "on-background": "#dae2fd",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00285d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-container": "#571bc1",
+                        "on-primary": "#002e6a",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "on-tertiary-container": "#00311f",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-primary-fixed": "#001a42",
+                        "secondary": "#d0bcff",
+                        "primary-container": "#4d8eff",
+                        "surface-container-low": "#131b2e",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c2c6d6",
+                        "tertiary-container": "#00a572",
+                        "tertiary": "#4edea3",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-secondary-container": "#c4abff",
+                        "on-secondary": "#3c0091",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container": "#171f33",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-primary": "#005ac2",
+                        "error-container": "#93000a",
+                        "background": "#0b1326",
+                        "outline-variant": "#424754",
+                        "surface": "#0b1326",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary": "#003824",
+                        "on-tertiary-fixed": "#002113",
+                        "on-surface": "#dae2fd",
+                        "surface-dim": "#0b1326",
+                        "outline": "#8c909f",
+                        "secondary-fixed": "#e9ddff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#adc6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "mono-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-sm": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-variant');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(34, 42, 61, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 0.15);
+            border-left-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Glowing effects */
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(173, 198, 255, 0.4);
+        }
+        
+        .glow-secondary {
+            box-shadow: 0 0 20px rgba(208, 188, 255, 0.4);
+        }
+
+        /* Progress Bar Animation */
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 65%; }
+            100% { width: 100%; }
+        }
+        .progress-animate {
+            animation: progress 3s ease-in-out infinite;
+        }
+        
+        /* Input styling */
+        .ai-input {
+            background: theme('colors.surface-container-high');
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: theme('colors.on-surface');
+            transition: all 0.2s ease;
+        }
+        .ai-input:focus {
+            outline: none;
+            border-color: theme('colors.primary');
+            box-shadow: 0 0 0 1px theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden min-h-screen relative flex">
+<!-- Ambient Background Lighting -->
+<div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-secondary-container opacity-20 blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary-container opacity-10 blur-[120px]"></div>
+</div>
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-[260px] border-r border-white/10 bg-surface-container-low/80 backdrop-blur-xl shadow-2xl flex flex-col p-md z-50">
+<!-- Header -->
+<div class="mb-xl">
+<h1 class="text-headline-md font-headline-md font-bold text-primary tracking-tight">Kanezuki</h1>
+<p class="text-label-md font-label-md text-on-surface-variant mt-1">AI Voice Labs</p>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-2">
+<!-- Biến đổi giọng nói (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-weight="fill">settings_voice</span>
+<span class="text-label-md font-label-md">Biến đổi giọng nói</span>
+</a>
+<!-- Tách nhạc (Active - Tab 2) -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 shadow-[0_0_20px_rgba(208,188,255,0.4)] scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="text-label-md font-label-md">Tách nhạc</span>
+</a>
+<!-- Huấn luyện (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-weight="fill">model_training</span>
+<span class="text-label-md font-label-md">Huấn luyện</span>
+</a>
+<!-- Hỏi đáp (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 transition-colors hover:bg-white/5 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-weight="fill">quiz</span>
+<span class="text-label-md font-label-md">Hỏi đáp</span>
+</a>
+</div>
+<!-- CTA & Footer Tabs -->
+<div class="mt-auto flex flex-col gap-4">
+<button class="w-full bg-gradient-to-r from-primary to-secondary text-on-primary text-label-md font-label-md py-3 rounded-lg hover:brightness-110 hover:glow-primary transition-all font-bold">
+                Nâng cấp Premium
+            </button>
+<div class="flex flex-col gap-1 border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-colors hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Cài đặt</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 transition-colors hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Trợ giúp</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-[260px] flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-surface/50 backdrop-blur-md border-b border-white/10 z-40 flex justify-between items-center px-lg">
+<div class="flex items-center">
+<!-- Search or other left elements if needed, currently empty per JSON -->
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="flex items-center gap-3 ml-2 pl-4 border-l border-white/10 cursor-pointer group">
+<span class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">Tài khoản</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas (Scrollable) -->
+<main class="flex-1 mt-16 p-lg pb-xl">
+<!-- Page Header -->
+<div class="mb-xl">
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-2">Tách nhạc UVR5</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Xử lý hàng loạt và tách vocal/instrumental với AI model tiên tiến.</p>
+</div>
+<!-- Bento Grid Layout for Tool -->
+<div class="grid grid-cols-12 gap-md">
+<!-- Main Processing Panel (Left/Center) - 8 columns -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-md">
+<!-- Batch Processing Setup Card -->
+<div class="glass-panel rounded-xl p-lg flex flex-col gap-md">
+<h3 class="text-headline-md font-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">folder_open</span>
+                            Cấu hình thư mục
+                        </h3>
+<div class="flex flex-col gap-4">
+<!-- Input Folder -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Thư mục đầu vào (Audio files)</label>
+<div class="flex gap-2">
+<input class="ai-input flex-1 rounded-lg px-4 py-3 text-body-md font-body-md" placeholder="C:\Users\Music\ToProcess" readonly="" type="text" value="D:\Project_Alpha\Vocals\Raw"/>
+<button class="bg-surface-container-high border border-white/10 text-on-surface hover:bg-white/10 px-6 py-3 rounded-lg text-label-md font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">search</span> Duyệt
+                                    </button>
+</div>
+</div>
+<!-- Output Folder -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Thư mục đầu ra (Lưu kết quả)</label>
+<div class="flex gap-2">
+<input class="ai-input flex-1 rounded-lg px-4 py-3 text-body-md font-body-md" placeholder="C:\Users\Music\Processed" readonly="" type="text" value="D:\Project_Alpha\Vocals\Isolated"/>
+<button class="bg-surface-container-high border border-white/10 text-on-surface hover:bg-white/10 px-6 py-3 rounded-lg text-label-md font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">search</span> Duyệt
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Model Selection & Action Card -->
+<div class="glass-panel rounded-xl p-lg flex flex-col gap-md">
+<div class="flex justify-between items-end">
+<div class="flex flex-col gap-2 w-1/2">
+<label class="text-label-md font-label-md text-on-surface-variant">Mô hình tách nhạc UVR5</label>
+<div class="relative">
+<select class="ai-input w-full rounded-lg px-4 py-3 text-body-md font-body-md appearance-none cursor-pointer pr-10">
+<option value="vocal_inst">MDX-Net: Vocal &amp; Instrumental</option>
+<option value="demucs">Demucs v4: 4 Stems</option>
+<option value="vr">VR Arch: High Frequency</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-8 py-4 rounded-xl text-headline-md font-headline-md font-bold hover:brightness-110 glow-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                Bắt đầu tách nhạc
+                            </button>
+</div>
+</div>
+<!-- Progress & Status Card -->
+<div class="glass-panel rounded-xl p-lg flex flex-col gap-4 relative overflow-hidden">
+<!-- Active Glow overlay when processing -->
+<div class="absolute inset-0 bg-primary/5 opacity-50 z-0"></div>
+<div class="relative z-10 flex justify-between items-center mb-2">
+<h4 class="text-body-lg font-body-lg text-on-surface">Đang xử lý: <span class="text-primary font-mono-sm">track_03_final.wav</span></h4>
+<span class="text-label-md font-label-md text-secondary">65% (3/12 files)</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container-highest rounded-full h-2 relative overflow-hidden z-10 border border-white/5">
+<div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full glow-primary progress-animate" style="width: 65%;"></div>
+</div>
+<!-- Mini Console/Log -->
+<div class="mt-4 bg-background/50 rounded-lg p-4 font-mono-sm text-mono-sm text-on-surface-variant border border-white/5 max-h-32 overflow-y-auto relative z-10">
+<div class="text-tertiary">[14:02:11] Khởi tạo mô hình MDX-Net thành công.</div>
+<div>[14:02:15] Bắt đầu tách track_01.wav...</div>
+<div class="text-tertiary">[14:03:02] Hoàn thành track_01.wav -&gt; Đã lưu.</div>
+<div>[14:03:05] Bắt đầu tách track_02.wav...</div>
+<div class="text-tertiary">[14:04:10] Hoàn thành track_02.wav -&gt; Đã lưu.</div>
+<div class="text-primary animate-pulse">[14:04:15] Đang xử lý track_03_final.wav... (ETA: 45s)</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar (Ads & Info) - 4 columns -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+<!-- Quick Stats / Info -->
+<div class="glass-panel rounded-xl p-sm flex items-center gap-4 border-l-4 border-l-secondary">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">memory</span>
+</div>
+<div>
+<div class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">GPU Status</div>
+<div class="text-body-lg font-body-lg text-on-surface font-semibold">NVIDIA RTX 4090 <span class="text-tertiary text-body-sm font-body-sm ml-2">Idle</span></div>
+</div>
+</div>
+<!-- Standardized Ad Unit (300x250 placeholder style) -->
+<div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden flex flex-col">
+<div class="bg-surface-container-high px-3 py-1 flex justify-between items-center border-b border-outline-variant">
+<span class="text-[10px] font-label-md text-on-surface-variant uppercase tracking-widest">Tài trợ</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant cursor-pointer hover:text-on-surface">info</span>
+</div>
+<div class="p-4 flex-1 flex flex-col items-center justify-center min-h-[250px] relative">
+<!-- Ad Content Placeholder -->
+<div class="text-center">
+<div class="w-16 h-16 mx-auto bg-primary-container rounded-lg mb-3 flex items-center justify-center rotate-3">
+<span class="material-symbols-outlined text-on-primary-container text-[32px]">graphic_eq</span>
+</div>
+<h5 class="text-body-lg font-body-lg text-primary mb-1">Vocal Presets Pro</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">Gói hiệu ứng cao cấp cho giọng hát AI.</p>
+<button class="border border-primary text-primary px-4 py-2 rounded text-label-md font-label-md hover:bg-primary hover:text-on-primary transition-colors">
+                                    Tìm hiểu thêm
+                                </button>
+</div>
+</div>
+</div>
+<!-- Audio Visualizer Decoration -->
+<div class="glass-panel rounded-xl p-4 flex-1 min-h-[150px] relative flex flex-col justify-end overflow-hidden group">
+<div class="text-label-md font-label-md text-on-surface-variant absolute top-4 left-4 z-10">Real-time Spectrum</div>
+<div class="flex items-end justify-between gap-1 h-24 opacity-50 group-hover:opacity-100 transition-opacity">
+<!-- Simulated bars -->
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 20%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 40%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 70%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 30%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 85%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 50%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 20%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 60%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 90%"></div>
+<div class="w-full bg-gradient-to-t from-secondary to-primary rounded-t-sm" style="height: 45%"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-surface-container-lowest border-t border-white/10 flex justify-between items-center px-lg py-sm mt-auto">
+<div class="text-label-md font-bold text-on-surface">© 2024 Kanezuki AI. Bảo lưu mọi quyền.</div>
+<div class="flex gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Điều khoản</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Bảo mật</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Liên hệ</a>
+</div>
+</footer>
+</div>
+</body></html>
