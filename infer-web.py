@@ -670,6 +670,12 @@ def _install_routes_and_hooks():
                         _app.blocks.css = css_to_add
                     else:
                         _app.blocks.css += css_to_add
+                    for comp in _app.blocks.blocks.values():
+                        if type(comp).__name__ == "Button":
+                            val = getattr(comp, "value", "")
+                            if isinstance(val, str) and "2." in val:
+                                comp.value = "2. Tách nhạc"
+
             except Exception as e:
                 pass
             # 1. Install /api/select_model hook
