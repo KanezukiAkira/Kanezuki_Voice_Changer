@@ -75,7 +75,7 @@ def check_for_updates():
                 print("[UPDATER] Đang biên dịch mã nguồn mới ra file ẩn mã (.pyc)...")
                 python_exe = os.path.join("runtime", "python.exe") if os.path.exists(os.path.join("runtime", "python.exe")) else sys.executable
                 try:
-                    subprocess.run([python_exe, "-m", "compileall", "-b", "-x", r"runtime|\.git|\.github", "."], check=False)
+                    subprocess.run([python_exe, "-m", "compileall", "-b", "-f", "-x", r"runtime|\.git|\.github", "."], check=False)
                     # Xóa các file .py vừa tải về để bảo mật code
                     if os.path.exists('infer-web.py'): os.remove('infer-web.py')
                 except Exception as e:
