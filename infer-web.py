@@ -669,9 +669,15 @@ def _install_routes_and_hooks():
                                 try:
                                     with open(os.path.join(script_dir, "wrapper_error.log"), "a", encoding="utf-8") as lf:
                                         lf.write(f"Error reading {html_path}: {read_err}\n")
-                                except Exception:
-                                    pass
-                                return await _orig_index(*args, **kwargs)
+                                except: pass
+                                import inspect
+                                if inspect.iscoroutinefunction(_orig_index):
+                                    return await _orig_index(*args, **kwargs)
+                                else:
+                                    res = _orig_index(*args, **kwargs)
+                                    if inspect.isawaitable(res):
+                                        return await res
+                                    return res
 
                         _wrapped_index.__wrapped_hook__ = True
                         _route.endpoint = _wrapped_index
