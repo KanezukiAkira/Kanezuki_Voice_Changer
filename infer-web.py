@@ -657,17 +657,19 @@ def _install_routes_and_hooks():
         if _app is not None:
             try:
                 if hasattr(_app, "blocks"):
-                    faq_id = None
+                    # Find the FAQ tab and assign an elem_id
                     for comp in _app.blocks.blocks.values():
                         if type(comp).__name__ in ["TabItem", "Tab"]:
                             lbl = getattr(comp, "label", "") or ""
                             if "常见" in lbl or "FAQ" in lbl.upper() or "Hỏi đáp" in lbl or "Câu hỏi" in lbl:
-                                faq_id = getattr(comp, "_id", None) or getattr(comp, "id", None)
+                                comp.elem_id = "hide_faq_tab"
                                 break
-                    if faq_id is not None:
-                        for comp in _app.blocks.blocks.values():
-                            if hasattr(comp, "children") and comp.children:
-                                comp.children = [c for c in comp.children if getattr(c, "_id", None) != faq_id and getattr(c, "id", None) != faq_id]
+                    # Inject CSS to hide the tab button and content
+                    css_to_add = "\n#hide_faq_tab-button { display: none !important; }\n#hide_faq_tab { display: none !important; }\n"
+                    if getattr(_app.blocks, "css", None) is None:
+                        _app.blocks.css = css_to_add
+                    else:
+                        _app.blocks.css += css_to_add
             except Exception as e:
                 pass
             # 1. Install /api/select_model hook
