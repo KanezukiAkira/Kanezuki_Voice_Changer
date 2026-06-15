@@ -684,17 +684,20 @@ def _install_routes_and_hooks():
                                         injection = """
                                         <script>
                                         setInterval(function() {
-                                            var btns = document.querySelectorAll('button');
-                                            for (var i = 0; i < btns.length; i++) {
-                                                if (btns[i].innerText.includes('FAQ') || btns[i].innerText.includes('Câu hỏi thường gặp')) {
-                                                    btns[i].style.display = 'none';
-                                                    var tabId = btns[i].getAttribute('aria-controls');
-                                                    if (tabId) {
-                                                        var tab = document.getElementById(tabId);
-                                                        if (tab) tab.style.display = 'none';
+                                            try {
+                                                var btns = document.querySelectorAll('button, div.tabitem, div[role="tab"]');
+                                                for (var i = 0; i < btns.length; i++) {
+                                                    var txt = btns[i].textContent || "";
+                                                    if (txt.includes('FAQ') || txt.includes('Câu hỏi thường gặp')) {
+                                                        btns[i].style.display = 'none';
+                                                        var tabId = btns[i].getAttribute('aria-controls');
+                                                        if (tabId) {
+                                                            var tab = document.getElementById(tabId);
+                                                            if (tab) tab.style.display = 'none';
+                                                        }
                                                     }
                                                 }
-                                            }
+                                            } catch(e) {}
                                         }, 500);
                                         </script>
                                         """
@@ -730,11 +733,17 @@ def _wrapped_uvicorn_run(*args, **kwargs):
 
 uvicorn.run = _wrapped_uvicorn_run
 
-# IMPORTANT: Set _rvc_exec_globals BEFORE exec() because exec() blocks forever
-# (the compiled pyc calls uvicorn.run() which never returns).
-# Since _globals is a dict passed by reference, exec() will populate it in-place
-# (e.g. _globals['vc'] = VC(config)), and _rvc_exec_globals will see those changes.
+# IMPORTANT: Set _rvc_exec_globals BEFORE exec()
 builtins._rvc_exec_globals = _globals
+
+import gradio as gr
+_orig_tab_item = gr.TabItem
+def hooked_tab_item(*args, **kwargs):
+    label = kwargs.get("label") or (args[0] if len(args) > 0 else "")
+    if "常见问题解答" in label or "FAQ" in label or "Hỏi đáp" in label:
+        return gr.Column(visible=False)
+    return _orig_tab_item(*args, **kwargs)
+gr.TabItem = hooked_tab_item
 
 exec(_code, _globals)
 
