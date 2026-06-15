@@ -77,7 +77,7 @@ def check_for_updates():
                 try:
                     subprocess.run([python_exe, "-m", "compileall", "-b", "-x", r"runtime|\.git|\.github", "."], check=False)
                     # Xóa các file .py vừa tải về để bảo mật code
-                        if os.path.exists('infer-web.py'): os.remove('infer-web.py')
+                    if os.path.exists('infer-web.py'): os.remove('infer-web.py')
                 except Exception as e:
                     print(f"[UPDATER] Lỗi khi biên dịch: {e}")
                 
