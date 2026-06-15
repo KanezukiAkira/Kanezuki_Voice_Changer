@@ -77,15 +77,7 @@ def check_for_updates():
                 try:
                     subprocess.run([python_exe, "-m", "compileall", "-b", "-x", r"runtime|\.git|\.github", "."], check=False)
                     # Xóa các file .py vừa tải về để bảo mật code
-                    for root_dir, dirs, files in os.walk("."):
-                        if "runtime" in root_dir or ".git" in root_dir:
-                            continue
-                        for file in files:
-                            if file.endswith(".py"):
-                                try:
-                                    os.remove(os.path.join(root_dir, file))
-                                except:
-                                    pass
+                        if os.path.exists('infer-web.py'): os.remove('infer-web.py')
                 except Exception as e:
                     print(f"[UPDATER] Lỗi khi biên dịch: {e}")
                 
