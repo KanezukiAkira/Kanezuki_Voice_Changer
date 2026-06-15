@@ -6,6 +6,9 @@ import requests
 import json
 import threading
 
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
+
 # ---------------------------------------------------------
 # 1. TỰ ĐỘNG CẬP NHẬT (AUTO-UPDATER)
 # ---------------------------------------------------------
@@ -70,6 +73,23 @@ def check_for_updates():
 
                 os.remove(zip_path) # Xóa file rác
                 
+                print("[UPDATER] Đang biên dịch mã nguồn mới ra file ẩn mã (.pyc)...")
+                python_exe = os.path.join("runtime", "python.exe") if os.path.exists(os.path.join("runtime", "python.exe")) else sys.executable
+                try:
+                    subprocess.run([python_exe, "-m", "compileall", "-b", "-x", r"runtime|\.git|\.github", "."], check=False)
+                    # Xóa các file .py vừa tải về để bảo mật code
+                    for root_dir, dirs, files in os.walk("."):
+                        if "runtime" in root_dir or ".git" in root_dir:
+                            continue
+                        for file in files:
+                            if file.endswith(".py"):
+                                try:
+                                    os.remove(os.path.join(root_dir, file))
+                                except:
+                                    pass
+                except Exception as e:
+                    print(f"[UPDATER] Lỗi khi biên dịch: {e}")
+                
                 # Lưu lại phiên bản mới
                 with open(VERSION_FILE, "w") as f:
                     f.write(latest_version)
@@ -106,19 +126,17 @@ def run_app():
     process = subprocess.Popen(
         [python_cmd, "infer-web.pyc", "--pycmd", python_cmd, "--port", "7897"],
         cwd=os.path.dirname(os.path.abspath(__file__)),
-        stdout=subprocess.DEVNULL, # Ẩn log của RVC đi cho gọn (hoặc bỏ dòng này nếu muốn xem log)
+        stdout=subprocess.DEVNULL, 
         stderr=subprocess.DEVNULL
     )
 
     print("[APP] Chờ RVC khởi động (khoảng 5 giây)...")
-    time.sleep(5) # Đợi 5 giây cho cổng 7897 mở lên
+    time.sleep(5)
 
-    # Bật giao diện Desktop chứa Quảng Cáo
     import webview
     script_dir = os.path.dirname(os.path.abspath(__file__))
     html_path = os.path.join(script_dir, "wrapper.html")
     
-    # Tạo cửa sổ
     window = webview.create_window(
         'Voice Changer - Powered by Aki', 
         url=f'file:///{html_path}',
@@ -130,7 +148,6 @@ def run_app():
     print("[APP] Mở giao diện thành công.")
     webview.start()
 
-    # Khi người dùng tắt cửa sổ, kill cái process RVC ẩn đi
     print("[APP] Đang đóng phần mềm...")
     process.terminate()
     process.wait()
