@@ -130,8 +130,8 @@ def run_app():
         stderr=subprocess.DEVNULL
     )
 
-    print("[APP] Chờ RVC khởi động (khoảng 5 giây)...")
-    time.sleep(5)
+    print("[APP] Chờ RVC khởi động (khoảng 8 giây)...")
+    time.sleep(8)
 
     import webview
     script_dir = os.path.dirname(os.path.abspath(__file__))
