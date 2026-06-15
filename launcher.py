@@ -10,37 +10,61 @@ import threading
 # 1. TỰ ĐỘNG CẬP NHẬT (AUTO-UPDATER)
 # ---------------------------------------------------------
 VERSION_FILE = "version.txt"
-UPDATE_URL = "https://raw.githubusercontent.com/YourUsername/YourRepo/main/version.json" # Thay bằng link Github của bạn
+UPDATE_URL = "https://raw.githubusercontent.com/KanezukiAkira/Kanezuki_Voice_Changer/main/version.json"
+REPO_ZIP_URL = "https://github.com/KanezukiAkira/Kanezuki_Voice_Changer/archive/refs/heads/main.zip"
 
 def check_for_updates():
     print("[UPDATER] Đang kiểm tra cập nhật...")
     try:
-        # Lấy version hiện tại
         current_version = "1.0"
         if os.path.exists(VERSION_FILE):
             with open(VERSION_FILE, "r") as f:
                 current_version = f.read().strip()
         
-        # Thử lấy version mới nhất từ internet
-        # LƯU Ý: Chức năng này tạm thời bị tắt (try/except bỏ qua) 
-        # cho đến khi bạn thay thế UPDATE_URL bằng link thật.
-        response = requests.get(UPDATE_URL, timeout=3)
+        response = requests.get(UPDATE_URL, timeout=5)
         if response.status_code == 200:
             data = response.json()
             latest_version = data.get("version", current_version)
             if latest_version > current_version:
-                print(f"[UPDATER] Đã có phiên bản mới: {latest_version}. Đang tải...")
-                # Code tải các file cập nhật sẽ viết ở đây
-                # ... (ví dụ: dùng requests để tải file infer-web.py mới)
+                print(f"[UPDATER] Đã có phiên bản mới: {latest_version}. Đang tiến hành tải dữ liệu...")
                 
-                # Cập nhật lại version.txt
+                # Tải file ZIP mã nguồn mới nhất từ Github
+                zip_path = "update_temp.zip"
+                r = requests.get(REPO_ZIP_URL, stream=True)
+                with open(zip_path, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                
+                print("[UPDATER] Tải xong! Đang cài đặt bản cập nhật...")
+                import zipfile
+                import shutil
+                # Giải nén đè lên các file hiện hành
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    # File tải từ Github thường bọc trong thư mục Kanezuki_Voice_Changer-main
+                    for member in zip_ref.namelist():
+                        if member.startswith("Kanezuki_Voice_Changer-main/"):
+                            # Bỏ qua folder gốc
+                            target_path = member.replace("Kanezuki_Voice_Changer-main/", "", 1)
+                            if target_path and not member.endswith('/'):
+                                # Chỉ ghi đè các file không bị khóa
+                                try:
+                                    source = zip_ref.open(member)
+                                    target = open(target_path, "wb")
+                                    with source, target:
+                                        shutil.copyfileobj(source, target)
+                                except Exception as write_err:
+                                    print(f"Bỏ qua file đang được dùng: {target_path}")
+
+                os.remove(zip_path) # Xóa file rác
+                
+                # Lưu lại phiên bản mới
                 with open(VERSION_FILE, "w") as f:
                     f.write(latest_version)
-                print("[UPDATER] Cập nhật thành công!")
+                print("[UPDATER] Cập nhật thành công! Chuẩn bị chạy phần mềm...")
             else:
                 print("[UPDATER] Phiên bản đang dùng là mới nhất.")
     except Exception as e:
-        print(f"[UPDATER] Không thể kiểm tra cập nhật (Không có mạng hoặc Sai URL): {e}")
+        print(f"[UPDATER] Không thể kiểm tra cập nhật ngay lúc này: {e}")
 
 # ---------------------------------------------------------
 # 2. KIỂM TRA KẾT NỐI MẠNG (BẮT BUỘC)
