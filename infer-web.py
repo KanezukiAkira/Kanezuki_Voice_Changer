@@ -1,4 +1,4 @@
-# infer-web.py - Wrapper script to inject missing globals into the compiled backend
+﻿# infer-web.py - Wrapper script to inject missing globals into the compiled backend
 # This script defines functions that are expected by infer-web.pyc (the compiled real backend)
 # but were not compiled into it due to compilation environment differences.
 
@@ -790,4 +790,5 @@ exec(_code, _globals)
 
 # Worker process hook
 _install_routes_and_hooks()
+
 

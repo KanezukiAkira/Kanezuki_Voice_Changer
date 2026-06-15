@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kanezuki - Biến đổi giọng nói</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#283044",
+                        "on-secondary-fixed": "#23005c",
+                        "on-background": "#dae2fd",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00285d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-container": "#571bc1",
+                        "on-primary": "#002e6a",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "on-tertiary-container": "#00311f",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-primary-fixed": "#001a42",
+                        "secondary": "#d0bcff",
+                        "primary-container": "#4d8eff",
+                        "surface-container-low": "#131b2e",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c2c6d6",
+                        "tertiary-container": "#00a572",
+                        "tertiary": "#4edea3",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-secondary-container": "#c4abff",
+                        "on-secondary": "#3c0091",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container": "#171f33",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-primary": "#005ac2",
+                        "error-container": "#93000a",
+                        "background": "#0b1326",
+                        "outline-variant": "#424754",
+                        "surface": "#0b1326",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary": "#003824",
+                        "on-tertiary-fixed": "#002113",
+                        "on-surface": "#dae2fd",
+                        "surface-dim": "#0b1326",
+                        "outline": "#8c909f",
+                        "secondary-fixed": "#e9ddff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#adc6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "mono-sm": ["Inter", "monospace"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "headline-xl": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "mono-sm": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0b1326; /* background color */
+            color: #dae2fd; /* on-background */
+        }
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.6); /* surface-container-low */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 0.2);
+            border-left-color: rgba(255, 255, 255, 0.2);
+        }
+        .glow-active {
+            box-shadow: 0 0 20px rgba(173, 198, 255, 0.4); /* primary */
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4d8eff, #571bc1); /* primary-container to secondary-container */
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(173, 198, 255, 0.6);
+        }
+        .slider-track {
+            height: 4px;
+            background: #2d3449; /* surface-variant */
+            border-radius: 2px;
+            position: relative;
+        }
+        .slider-thumb {
+            width: 16px;
+            height: 16px;
+            background: #adc6ff; /* primary */
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(173, 198, 255, 0.8);
+            cursor: pointer;
+        }
+        /* Custom scrollbar for console */
+        .console-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .console-scroll::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        .console-scroll::-webkit-scrollbar-thumb {
+            background: #2d3449;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-background min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low/80 backdrop-blur-xl border-r border-white/10 shadow-2xl fixed left-0 top-0 h-full w-[260px] z-50 flex flex-col p-md">
+<div class="mb-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container font-headline-md font-bold">K</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary tracking-tight">Kanezuki</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">AI Voice Labs</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-sm">
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 shadow-[0_0_20px_rgba(208,188,255,0.4)] transition-transform hover:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_voice</span>
+<span class="text-label-md font-label-md">Biến đổi giọng nói</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 hover:bg-white/5 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">graphic_eq</span>
+<span class="text-label-md font-label-md">Tách nhạc</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 hover:bg-white/5 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">model_training</span>
+<span class="text-label-md font-label-md">Huấn luyện</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-3 hover:bg-white/5 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="text-label-md font-label-md">Hỏi đáp</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-sm">
+<button class="w-full btn-primary rounded-lg py-3 text-label-md font-label-md shadow-lg mb-4">Nâng cấp Premium</button>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 hover:bg-white/5 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Cài đặt</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface px-4 py-2 hover:bg-white/5 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Trợ giúp</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-[260px] h-screen overflow-y-auto relative">
+<!-- Abstract glowing background -->
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-secondary/20 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="bg-surface/50 backdrop-blur-md border-b border-white/10 fixed top-0 right-0 w-[calc(100%-260px)] h-16 z-40 flex justify-between items-center px-lg">
+<div class="flex-1"></div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button class="flex items-center gap-2 text-primary font-label-md text-label-md bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors border border-white/10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+                    Tài khoản
+                </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 pt-24 px-lg pb-lg flex gap-md w-full max-w-container-max mx-auto">
+<!-- Left Column: Inputs & Models -->
+<div class="w-1/2 flex flex-col gap-md">
+<!-- Model Selection Card -->
+<div class="glass-panel rounded-xl p-sm flex flex-col gap-sm">
+<h2 class="text-body-lg font-headline-md font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">record_voice_over</span>
+                        Mô hình giọng nói AI
+                    </h2>
+<div class="flex gap-2 items-end">
+<div class="flex-1">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-1">Chọn Giọng</label>
+<div class="relative">
+<select class="w-full bg-[#1e293b]/50 border border-outline-variant rounded-lg px-3 py-2.5 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary appearance-none backdrop-blur-md">
+<option value="kanezuki_v2">Kanezuki v2 (Premium)</option>
+<option value="anime_girl">Anime Girl Type A</option>
+<option value="deep_male">Deep Narrator</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-bright text-on-surface p-2.5 rounded-lg border border-white/10 transition-colors flex items-center justify-center group" title="Làm mới">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500 text-tertiary">refresh</span>
+</button>
+<button class="bg-error-container/20 hover:bg-error-container/40 text-error p-2.5 rounded-lg border border-error/30 transition-colors flex items-center justify-center" title="Giải phóng VRAM">
+<span class="material-symbols-outlined">memory</span>
+</button>
+</div>
+<!-- Drag & Drop Zone -->
+<div class="mt-2 border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center bg-surface-container/30 hover:bg-surface-container/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2 group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="text-body-sm font-body-sm text-center text-on-surface-variant group-hover:text-on-surface">Kéo thả tệp ZIP mô hình (.pth/.index) vào đây<br/><span class="text-label-md font-label-md text-primary mt-1 inline-block">hoặc nhấp để duyệt</span></p>
+</div>
+</div>
+<!-- Audio Source Card -->
+<div class="glass-panel rounded-xl p-sm flex flex-col gap-sm flex-1">
+<h2 class="text-body-lg font-headline-md font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">audio_file</span>
+                        Nguồn Âm Thanh
+                    </h2>
+<!-- Tabs fake -->
+<div class="flex gap-2 border-b border-white/10 pb-2">
+<button class="text-label-md font-label-md text-primary border-b-2 border-primary pb-1 px-2">Tải File Lên</button>
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-on-surface pb-1 px-2 transition-colors">Nhập URL (YouTube/Bilibili)</button>
+</div>
+<div class="flex-1 flex flex-col justify-center items-center border border-outline-variant rounded-lg bg-[#1e293b]/30 p-4">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant mb-2">upload_file</span>
+<button class="bg-surface-container-high hover:bg-surface-bright text-on-surface text-body-sm font-body-sm px-4 py-2 rounded border border-white/10 transition-colors mb-2">
+                            Chọn File Audio (.wav, .mp3, .flac)
+                        </button>
+<p class="text-label-md font-label-md text-on-surface-variant">Chưa có file nào được chọn</p>
+</div>
+<div class="mt-2 flex items-center gap-3 bg-surface-container p-3 rounded-lg border border-white/5">
+<input class="w-4 h-4 rounded bg-[#1e293b] border-outline-variant text-primary focus:ring-primary focus:ring-offset-0" id="uvr5" type="checkbox"/>
+<label class="text-body-sm font-body-sm text-on-surface flex-1 cursor-pointer select-none" for="uvr5">Tách nhạc nền tự động (UVR5)</label>
+<span class="text-label-md font-label-md text-secondary bg-secondary/10 px-2 py-0.5 rounded text-xs">Khuyên dùng</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Settings & Execution -->
+<div class="w-1/2 flex flex-col gap-md">
+<!-- Parameters Card -->
+<div class="glass-panel rounded-xl p-md flex-1">
+<h3 class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary">tune</span>
+                        Thông số biến đổi
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-lg gap-y-md">
+<!-- Pitch Shift -->
+<div>
+<div class="flex justify-between mb-xs">
+<label class="font-body-sm text-body-sm font-bold text-on-surface">Dịch cung (Pitch Shift)</label>
+<span class="font-mono-sm text-mono-sm text-primary">0 st</span>
+</div>
+<input class="w-full" max="12" min="-12" type="range" value="0"/>
+<div class="flex justify-between mt-1">
+<span class="font-label-md text-label-md text-on-surface-variant">-12 (Nữ sang Nam)</span>
+<span class="font-label-md text-label-md text-on-surface-variant">+12 (Nam sang Nữ)</span>
+</div>
+</div>
+<!-- Index Ratio -->
+<div>
+<div class="flex justify-between mb-xs">
+<label class="font-body-sm text-body-sm font-bold text-on-surface">Tỉ lệ đặc trưng (Index)</label>
+<span class="font-mono-sm text-mono-sm text-primary">0.75</span>
+</div>
+<input class="w-full" max="1" min="0" step="0.01" type="range" value="0.75"/>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Cao hơn: Giống model, thấp hơn: Giữ giọng gốc</p>
+</div>
+<!-- Protect -->
+<div>
+<div class="flex justify-between mb-xs">
+<label class="font-body-sm text-body-sm font-bold text-on-surface">Bảo vệ âm gió (Protect)</label>
+<span class="font-mono-sm text-mono-sm text-primary">0.33</span>
+</div>
+<input class="w-full" max="0.5" min="0" step="0.01" type="range" value="0.33"/>
+</div>
+<!-- Algorithm -->
+<div>
+<label class="font-body-sm text-body-sm font-bold text-on-surface block mb-sm">Thuật toán Pitch</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 bg-surface-container-high p-2 rounded border border-outline-variant cursor-pointer hover:border-primary/50 transition-colors">
+<input class="text-primary bg-surface-variant border-outline-variant focus:ring-primary focus:ring-offset-surface" name="algo" type="radio"/>
+<span class="font-mono-sm text-mono-sm">pm</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-container-high p-2 rounded border border-outline-variant cursor-pointer hover:border-primary/50 transition-colors">
+<input class="text-primary bg-surface-variant border-outline-variant focus:ring-primary focus:ring-offset-surface" name="algo" type="radio"/>
+<span class="font-mono-sm text-mono-sm">harvest</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-container-high p-2 rounded border border-outline-variant cursor-pointer hover:border-primary/50 transition-colors">
+<input class="text-primary bg-surface-variant border-outline-variant focus:ring-primary focus:ring-offset-surface" name="algo" type="radio"/>
+<span class="font-mono-sm text-mono-sm">crepe</span>
+</label>
+<label class="flex items-center gap-2 bg-primary-container/20 p-2 rounded border border-primary cursor-pointer transition-colors">
+<input checked="" class="text-primary bg-surface-variant border-outline-variant focus:ring-primary focus:ring-offset-surface" name="algo" type="radio"/>
+<span class="font-mono-sm text-mono-sm text-primary font-bold">rmvpe</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Volume Controls -->
+<div class="mt-md border-t border-white/10 pt-md grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div>
+<div class="flex justify-between mb-xs">
+<label class="font-body-sm text-body-sm flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">mic</span> Âm lượng Vocal</label>
+<span class="font-mono-sm text-mono-sm">1.0</span>
+</div>
+<input class="w-full" max="2" min="0" step="0.1" type="range" value="1.0"/>
+</div>
+<div>
+<div class="flex justify-between mb-xs">
+<label class="font-body-sm text-body-sm flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">queue_music</span> Âm lượng Nhạc nền</label>
+<span class="font-mono-sm text-mono-sm">1.0</span>
+</div>
+<input class="w-full" max="2" min="0" step="0.1" type="range" value="1.0"/>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="btn-primary w-full py-4 rounded-xl text-headline-md font-headline-md font-bold uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(87,27,193,0.5)] hover:scale-[1.01]">
+<span class="material-symbols-outlined text-3xl">play_circle</span>
+                    Bắt đầu đổi giọng
+                </button>
+<!-- Console Log & Player -->
+<div class="glass-panel rounded-xl flex flex-col overflow-hidden h-40">
+<div class="bg-surface-container-highest px-3 py-1.5 flex justify-between items-center border-b border-white/5">
+<span class="text-label-md font-label-md text-on-surface-variant">Console Output</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-error/50"></div>
+<div class="w-2 h-2 rounded-full bg-primary/50"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary/80 animate-pulse"></div>
+</div>
+</div>
+<div class="flex-1 p-2 bg-[#060e20]/80 font-mono-sm text-mono-sm text-on-surface-variant/70 overflow-y-auto console-scroll text-[11px] leading-tight">
+                        [System] Khởi tạo Kanezuki Engine v2.4.1...<br/>
+                        [GPU] Đã phát hiện CUDA thiết bị: NVIDIA RTX 4090 (24GB VRAM)<br/>
+                        [Ready] Sẵn sàng nhận tệp âm thanh.<br/>
+<span class="text-primary/70">&gt; Vui lòng tải lên tệp âm thanh hoặc nhập URL.</span>
+</div>
+<!-- Audio Player Skeleton -->
+<div class="bg-surface-container p-2 flex items-center gap-3 border-t border-white/5 opacity-50 pointer-events-none">
+<button class="p-1 text-on-surface-variant"><span class="material-symbols-outlined">play_arrow</span></button>
+<div class="flex-1 h-1 bg-surface-variant rounded-full overflow-hidden"></div>
+<span class="text-label-md font-label-md text-on-surface-variant">00:00 / 00:00</span>
+<button class="p-1 text-on-surface-variant"><span class="material-symbols-outlined">download</span></button>
+</div>
+</div>
+<!-- Ad Unit -->
+<div class="mt-auto bg-surface border border-outline-variant rounded-lg p-2 flex items-center justify-center relative overflow-hidden h-[90px]">
+<span class="absolute top-1 right-2 text-[9px] text-on-surface-variant font-label-md uppercase tracking-widest bg-surface px-1">Tài trợ</span>
+<!-- Placeholder cho Ad -->
+<div class="w-full h-full bg-surface-container-high/50 flex items-center justify-center flex-col">
+<span class="text-label-md font-label-md text-on-surface/50">Khu vực hiển thị quảng cáo (728x90)</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
