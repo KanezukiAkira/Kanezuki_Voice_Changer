@@ -672,12 +672,38 @@ def _install_routes_and_hooks():
                                 except: pass
                                 import inspect
                                 if inspect.iscoroutinefunction(_orig_index):
-                                    return await _orig_index(*args, **kwargs)
+                                    res = await _orig_index(*args, **kwargs)
                                 else:
                                     res = _orig_index(*args, **kwargs)
                                     if inspect.isawaitable(res):
-                                        return await res
-                                    return res
+                                        res = await res
+                                
+                                if hasattr(res, "body"):
+                                    try:
+                                        html = res.body.decode("utf-8")
+                                        injection = """
+                                        <script>
+                                        setInterval(function() {
+                                            var btns = document.querySelectorAll('button');
+                                            for (var i = 0; i < btns.length; i++) {
+                                                if (btns[i].innerText.includes('FAQ') || btns[i].innerText.includes('Câu hỏi thường gặp')) {
+                                                    btns[i].style.display = 'none';
+                                                    var tabId = btns[i].getAttribute('aria-controls');
+                                                    if (tabId) {
+                                                        var tab = document.getElementById(tabId);
+                                                        if (tab) tab.style.display = 'none';
+                                                    }
+                                                }
+                                            }
+                                        }, 500);
+                                        </script>
+                                        """
+                                        html = html.replace("</body>", injection + "</body>")
+                                        from fastapi.responses import HTMLResponse
+                                        return HTMLResponse(content=html, status_code=res.status_code, headers=dict(res.headers))
+                                    except Exception as e:
+                                        pass
+                                return res
 
                         _wrapped_index.__wrapped_hook__ = True
                         _route.endpoint = _wrapped_index
