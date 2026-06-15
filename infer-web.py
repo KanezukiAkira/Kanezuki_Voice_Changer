@@ -21,7 +21,7 @@ try:
                 
     _docs_dir = "docs"
     if os.path.exists(_docs_dir):
-        _doc_junks = ["fr", "jp", "kr", "tr", "小白简易教程.doc"]
+        _doc_junks = ["cn", "fr", "jp", "kr", "tr", "小白简易教程.doc"]
         for _d in _doc_junks:
             _p = os.path.join(_docs_dir, _d)
             if os.path.exists(_p):
