@@ -8,7 +8,7 @@ import shutil
 
 # --- AUTO CLEANUP LEGACY/JUNK FILES ---
 try:
-    _junk = ["go-web.bat", "go-web-release.bat", "test.py", "build_release.py", "build_release.pyc", "launcher.py"]
+    _junk = ["go-web.bat", "go-web-release.bat", "test.py", "build_release.py", "build_release.pyc"]
     for _j in _junk:
         if os.path.exists(_j):
             os.remove(_j)
