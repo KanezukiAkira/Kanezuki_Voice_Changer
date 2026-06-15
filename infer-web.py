@@ -655,6 +655,21 @@ def _install_routes_and_hooks():
     try:
         _app = _globals.get("app", None)
         if _app is not None:
+            try:
+                if hasattr(_app, "blocks"):
+                    faq_id = None
+                    for comp in _app.blocks.blocks.values():
+                        if type(comp).__name__ in ["TabItem", "Tab"]:
+                            lbl = getattr(comp, "label", "") or ""
+                            if "常见" in lbl or "FAQ" in lbl.upper() or "Hỏi đáp" in lbl or "Câu hỏi" in lbl:
+                                faq_id = getattr(comp, "_id", None) or getattr(comp, "id", None)
+                                break
+                    if faq_id is not None:
+                        for comp in _app.blocks.blocks.values():
+                            if hasattr(comp, "children") and comp.children:
+                                comp.children = [c for c in comp.children if getattr(c, "_id", None) != faq_id and getattr(c, "id", None) != faq_id]
+            except Exception as e:
+                pass
             # 1. Install /api/select_model hook
             for _route in _app.routes:
                 if hasattr(_route, "path") and _route.path == "/api/select_model":
@@ -765,17 +780,12 @@ uvicorn.run = _wrapped_uvicorn_run
 # IMPORTANT: Set _rvc_exec_globals BEFORE exec()
 builtins._rvc_exec_globals = _globals
 
-import gradio as gr
-_orig_tab_item = gr.TabItem
-def hooked_tab_item(*args, **kwargs):
-    label = kwargs.get("label") or (args[0] if len(args) > 0 else "")
-    if "常见问题解答" in label or "FAQ" in label or "Hỏi đáp" in label:
-        return gr.Column(visible=False)
-    return _orig_tab_item(*args, **kwargs)
-gr.TabItem = hooked_tab_item
+# Remove old gr.Tab hook
+# IMPORTANT: Set _rvc_exec_globals BEFORE exec()
+builtins._rvc_exec_globals = _globals
 
 exec(_code, _globals)
 
-# Worker process hook (since exec returns immediately during import in workers)
+# Worker process hook
 _install_routes_and_hooks()
 
