@@ -1,5 +1,7 @@
 {
-    "version": "1.7",
+    "version": "1.8",
     "disabled": false,
-    "disable_msg": "Phần mềm đã bị vô hiệu hóa bởi nhà phát triển."
+    "disable_msg": "Phần mềm đã bị vô hiệu hóa bởi nhà phát triển.",
+    "download_url": "https://github.com/KanezukiAkira/Kanezuki_Voice_Changer/archive/refs/heads/main.zip",
+    "changelog": "Fix updater to force overwrite pyc files and apply UI changes properly."
 }
