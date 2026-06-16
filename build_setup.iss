@@ -27,15 +27,15 @@ Name: "desktopicon"; Description: "Tạo biểu tượng ngoài màn hình Deskt
 [Files]
 ; Thêm toàn bộ các file/thư mục trong dự án vào bản cài đặt
 ; Lưu ý: Đã loại trừ (Excludes) các file rác của lập trình viên và git
-Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: ".git\*,.github\*,.aider*,TEMP\*,__pycache__\*,logs\*,Output\*,*.iss,*.zip,*.log"
+Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: ".git\*,.github\*,.aider*,TEMP\*,__pycache__\*,logs\*,Output\*,*.iss,*.zip,*.log,src_backup\*"
 
 [Icons]
 ; Tạo shortcut trong Start Menu
-Name: "{group}\Kanezuki"; Filename: "{app}\go-web.bat"
+Name: "{group}\Kanezuki"; Filename: "{app}\RVC-Launcher.exe"
 Name: "{group}\Gỡ cài đặt Kanezuki"; Filename: "{uninstallexe}"
 ; Tạo shortcut ngoài Desktop
-Name: "{autodesktop}\Kanezuki"; Filename: "{app}\go-web.bat"; Tasks: desktopicon
+Name: "{autodesktop}\Kanezuki"; Filename: "{app}\RVC-Launcher.exe"; Tasks: desktopicon
 
 [Run]
 ; Tự động chạy app sau khi cài đặt xong
-Filename: "{app}\go-web.bat"; Description: "Khởi động Kanezuki ngay bây giờ"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\RVC-Launcher.exe"; Description: "Khởi động Kanezuki ngay bây giờ"; Flags: nowait postinstall skipifsilent
