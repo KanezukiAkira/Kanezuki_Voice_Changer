@@ -76,4 +76,32 @@ Dành cho người dùng tải app lần đầu (không cần tải qua GitHub):
 2. **Bước 2:** Mở trình biên dịch **Inno Setup Compiler** trên máy của bạn.
 3. **Bước 3:** Mở tệp cấu hình [build_setup_release.iss](file:///c:/Users/sonho/Downloads/Vtuber_Aki/RVC1006Nvidia%20-%20Copy/build_setup_release.iss) trong Inno Setup.
 4. **Bước 4:** Nhấn nút **Compile (hoặc Ctrl + F9)** để tiến hành đóng gói.
-5. **Kết quả:** File cài đặt hoàn chỉnh `Setup_Kanezuki_Secure_v1.0.exe` sẽ được tạo ra tại thư mục `Output/` của dự án. Gửi file cài đặt này cho người dùng mới.
+5. **Kết quả:** File cài đặt hoàn chỉnh `Setup_Kanezuki_Secure_v1.1.exe` sẽ được tạo ra tại thư mục `Output/` của dự án. Gửi file cài đặt này cho người dùng mới.
+
+---
+
+## 5. Nhật ký cập nhật & Kết quả triển khai (Phiên bản 1.1)
+
+Dưới đây là chi tiết các tính năng mới đã được triển khai và kiểm thử thành công trong phiên bản **1.1**:
+
+### Các tính năng đã triển khai:
+* **Hộp thoại lưu tệp Windows gốc (Windows Save As Dialog):**
+  * Khi người dùng nhấn nút **Tải về máy** trên giao diện, frontend sẽ gọi API `/api/save_audio`.
+  * Backend mở hộp thoại chọn đường dẫn lưu tệp native của Windows. Người dùng có thể tự do đặt tên và chọn nơi lưu (Desktop, ổ D, thư mục Nhạc,...).
+  * Tệp tin sẽ tự động được sao chép sang vị trí đã chọn.
+  * Thêm cơ chế xác thực tên tệp an toàn (phải bắt đầu bằng `output_` và kết thúc bằng `.wav`) để tránh lỗ hổng bảo mật.
+
+* **Chuyển tệp kết quả tạm sang thư mục TEMP:**
+  * Không ghi các tệp âm thanh chuyển đổi vào thư mục `static/outputs/` của dự án để tránh làm nặng bộ cài và làm xáo trộn mã nguồn.
+  * Ghi tệp vào thư mục `TEMP/` (thư mục này bị bỏ qua bởi Git và bộ cài).
+  * Stream trực tiếp luồng âm thanh từ `TEMP/` hiển thị lên trình phát nhạc của frontend thông qua endpoint `/api/audio/{filename}`.
+  * Tự động dọn dẹp sạch sẽ toàn bộ các tệp kết quả cũ `output_*.wav` trong thư mục `TEMP/` mỗi khi backend khởi động.
+  * Loại bỏ hoàn toàn phần chọn thư mục lưu (Tùy chọn) trước đó ở cột phải để tinh giản hóa giao diện.
+
+* **Đóng gói bộ cài mới:**
+  * Bộ cài đầu ra: `Output\Setup_Kanezuki_Secure_v1.1.exe`.
+  * Số phiên bản ứng dụng được nâng cấp lên `1.1.0`.
+
+* **Đồng bộ GitHub:**
+  * Đã commit và push tất cả thay đổi bao gồm cả `version.json` (phiên bản `1.1` với changelog tiếng Việt) lên nhánh `main` của GitHub thành công.
+
