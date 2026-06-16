@@ -1,7 +1,7 @@
 {
-    "version": "1.1",
+    "version": "1.2",
     "disabled": false,
     "disable_msg": "Phần mềm đã bị vô hiệu hóa bởi nhà phát triển.",
     "download_url": "https://github.com/KanezukiAkira/Kanezuki_Voice_Changer/archive/refs/heads/main.zip",
-    "changelog": "Tích hợp hộp thoại Save As native của Windows khi tải về và chuyển tệp kết quả tạm sang thư mục TEMP để bảo mật."
+    "changelog": "Sửa lỗi chức năng kéo thả tệp ZIP mô hình (.pth/.index) và tự động nhận dạng, làm mới danh sách và chọn mô hình mới."
 }

@@ -224,7 +224,7 @@
 <span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant pointer-events-none">expand_more</span>
 </div>
 </div>
-<button class="bg-surface-container-high hover:bg-surface-bright text-on-surface p-2.5 rounded-lg border border-white/10 transition-colors flex items-center justify-center group" title="Làm mới">
+<button id="refresh-models-btn" class="bg-surface-container-high hover:bg-surface-bright text-on-surface p-2.5 rounded-lg border border-white/10 transition-colors flex items-center justify-center group" title="Làm mới">
 <span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500 text-tertiary">refresh</span>
 </button>
 <button class="bg-error-container/20 hover:bg-error-container/40 text-error p-2.5 rounded-lg border border-error/30 transition-colors flex items-center justify-center" title="Giải phóng VRAM">
@@ -232,10 +232,11 @@
 </button>
 </div>
 <!-- Drag & Drop Zone -->
-<div class="mt-2 border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center bg-surface-container/30 hover:bg-surface-container/50 transition-colors cursor-pointer group">
+<div id="model-drop-zone" class="mt-2 border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center bg-surface-container/30 hover:bg-surface-container/50 transition-colors cursor-pointer group">
 <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2 group-hover:text-primary transition-colors">cloud_upload</span>
 <p class="text-body-sm font-body-sm text-center text-on-surface-variant group-hover:text-on-surface">Kéo thả tệp ZIP mô hình (.pth/.index) vào đây<br><span class="text-label-md font-label-md text-primary mt-1 inline-block">hoặc nhấp để duyệt</span></p>
 </div>
+<input type="file" id="model-zip-input" class="hidden" accept=".zip">
 </div>
 <!-- Audio Source Card -->
 <div class="glass-panel rounded-xl p-sm flex flex-col gap-sm">
@@ -395,12 +396,16 @@
         logBox.scrollTop = logBox.scrollHeight;
     };
 
-    // Load models
-    window.addEventListener('DOMContentLoaded', async () => {
+    // Load models function
+    async function loadModels(selectedModelName = null) {
         try {
             const res = await fetch('/api/models');
             const data = await res.json();
             const select = document.getElementById('sid-select');
+            
+            // Keep track of currently selected model if none is specified
+            const currentSelected = selectedModelName || select.value;
+            
             select.innerHTML = '';
             if (data.models.length === 0) {
                 select.innerHTML = '<option value="">Không tìm thấy mô hình nào</option>';
@@ -411,11 +416,114 @@
                     opt.innerText = m;
                     select.appendChild(opt);
                 });
+                
+                // If a model is specified or was previously selected, try to select it
+                if (currentSelected && data.models.includes(currentSelected)) {
+                    select.value = currentSelected;
+                }
             }
         } catch (e) {
-            logger('Không thể tải danh sách mô hình', true);
+            logger('Không thể tải danh sách mô hình: ' + e.message, true);
+        }
+    }
+
+    // Load models on load
+    window.addEventListener('DOMContentLoaded', () => {
+        loadModels();
+    });
+
+    // Refresh models button listener
+    document.getElementById('refresh-models-btn').addEventListener('click', async () => {
+        logger('Đang làm mới danh sách mô hình...');
+        await loadModels();
+        logger('Đã làm mới danh sách mô hình.');
+    });
+
+    // Drag-and-Drop + File selection logic for model ZIP
+    const dropZone = document.getElementById('model-drop-zone');
+    const modelZipInput = document.getElementById('model-zip-input');
+
+    // Trigger click on file input when clicking the drop zone
+    dropZone.addEventListener('click', () => {
+        modelZipInput.click();
+    });
+
+    // Handle file selection from browse dialog
+    modelZipInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleModelUpload(e.target.files[0]);
         }
     });
+
+    // Drag-and-drop visual states
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add('border-primary', 'bg-surface-container/60', 'glow-active');
+        }, false);
+    });
+
+    ['dragleave', 'dragend', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove('border-primary', 'bg-surface-container/60', 'glow-active');
+        }, false);
+    });
+
+    // Handle file drop
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) {
+            handleModelUpload(files[0]);
+        }
+    }, false);
+
+    // Upload function
+    async function handleModelUpload(file) {
+        if (!file.name.endsWith('.zip')) {
+            logger('Chỉ chấp nhận tệp tin định dạng .zip!', true);
+            alert('Vui lòng kéo thả tệp .zip của mô hình!');
+            return;
+        }
+
+        logger(`Đang tải lên và giải nén tệp mô hình: ${file.name}...`);
+        
+        dropZone.style.pointerEvents = 'none';
+        dropZone.style.opacity = '0.7';
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch('/api/upload_model', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await res.json();
+            
+            if (res.ok && data.status === 'success') {
+                logger(`Nhập mô hình thành công! ${data.message}`);
+                // Reload list and automatically select the newly uploaded model
+                await loadModels(data.model_name);
+                alert(`Nhập mô hình thành công!\nTên mô hình: ${data.model_name}`);
+            } else {
+                logger(`Lỗi nhập mô hình: ${data.error || 'Lỗi không xác định'}`, true);
+                alert(`Lỗi nhập mô hình: ${data.error || 'Lỗi không xác định'}`);
+            }
+        } catch (err) {
+            logger(`Lỗi kết nối khi tải lên mô hình: ${err.message}`, true);
+            alert(`Lỗi kết nối khi tải lên mô hình: ${err.message}`);
+        } finally {
+            dropZone.style.pointerEvents = 'auto';
+            dropZone.style.opacity = '1';
+            modelZipInput.value = ''; // Reset file input
+        }
+    }
+
 
     document.getElementById('tab-url-btn').addEventListener('click', () => {
         document.getElementById('tab-url-btn').className = 'text-label-md font-label-md text-primary border-b-2 border-primary pb-1 px-2';
