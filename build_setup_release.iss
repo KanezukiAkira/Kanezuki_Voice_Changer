@@ -28,7 +28,7 @@ Name: "desktopicon"; Description: "Tạo biểu tượng ngoài màn hình Deskt
 ; Thêm toàn bộ các file/thư mục trong dự án vào bản cài đặt
 ; Lưu ý: Đã loại trừ (Excludes) các file rác của lập trình viên và git
 Source: "runtime\*"; DestDir: "{app}\runtime"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "runtime\*,.git\*,.github\*,.aider*,TEMP\*,__pycache__\*,logs\*,Output\*,*.iss,*.zip,*.log,src_backup\*"
+Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "runtime\*,.git\*,.github\*,.aider*,TEMP\*,__pycache__\*,logs\*,Output\*,*.iss,*.zip,*.log,src_backup\*,cookies.txt,test_*.py,view_*.py,remove_*.py,apply_*.py,bust_*.py,dump_*.py"
 
 [Icons]
 ; Tạo shortcut trong Start Menu

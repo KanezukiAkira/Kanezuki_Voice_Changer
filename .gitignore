@@ -42,6 +42,13 @@ assets/
 # Backups and temp files
 src_backup/
 update_temp.zip
+cookies.txt
+test_*.py
+view_*.py
+remove_*.py
+apply_*.py
+bust_*.py
+dump_*.py
 
 # Allow PyArmor runtime binaries
 !pyarmor_runtime_*/*.pyd
