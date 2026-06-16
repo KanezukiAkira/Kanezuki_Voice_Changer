@@ -1,7 +1,7 @@
 {
-    "version": "1.0",
+    "version": "1.1",
     "disabled": false,
     "disable_msg": "Phần mềm đã bị vô hiệu hóa bởi nhà phát triển.",
     "download_url": "https://github.com/KanezukiAkira/Kanezuki_Voice_Changer/archive/refs/heads/main.zip",
-    "changelog": "Fix updater to force overwrite pyc files and apply UI changes properly."
+    "changelog": "Tích hợp hộp thoại Save As native của Windows khi tải về và chuyển tệp kết quả tạm sang thư mục TEMP để bảo mật."
 }

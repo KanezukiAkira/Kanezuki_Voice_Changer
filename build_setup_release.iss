@@ -2,7 +2,7 @@
 [Setup]
 ; Tên phần mềm và thông tin
 AppName=Kanezuki 
-AppVersion=1.0.0
+AppVersion=1.1.0
 AppPublisher=Kanezuki
 AppCopyright=Copyright (C) 2024
 ; Thư mục cài đặt mặc định (C:\Program Files\Kanezuki)
@@ -10,7 +10,7 @@ DefaultDirName={autopf}\Kanezuki
 DefaultGroupName=Kanezuki
 ; Tên file cài đặt đầu ra
 OutputDir=Output
-OutputBaseFilename=Setup_Kanezuki_Secure_v1.0
+OutputBaseFilename=Setup_Kanezuki_Secure_v1.1
 ; Chuẩn nén (Ultra64 giúp nén nhỏ nhất có thể)
 Compression=lzma2/ultra64
 SolidCompression=yes

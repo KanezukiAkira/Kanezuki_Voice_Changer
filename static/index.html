@@ -344,6 +344,7 @@
 <input id="beat-volume" class="w-full" max="2" min="0" step="0.1" type="range" value="1.0" oninput="document.getElementById('beat-vol-val').innerText = this.value">
 </div>
 <div class="col-span-full mt-2"><label class="font-body-sm text-body-sm font-bold text-on-surface block mb-sm">Xử lý hậu kỳ</label><div class="flex items-center gap-4 bg-surface-container-high/50 p-4 rounded-xl border border-outline-variant hover:border-primary/50 transition-all cursor-pointer group"><div class="flex items-center gap-3 flex-1"><input checked="" class="w-5 h-5 rounded bg-[#1e293b] border-outline-variant text-primary focus:ring-primary focus:ring-offset-0" id="uvr5-unified" type="checkbox"><label class="text-body-md font-body-md text-on-surface cursor-pointer select-none" for="uvr5-unified">Tách nhạc nền tự động (UVR5)</label></div><div class="flex items-center gap-2"><span class="text-label-md font-label-md text-secondary bg-secondary/10 px-3 py-1 rounded-full">Khuyên dùng</span><span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">info</span></div></div></div></div>
+
 </div>
 <!-- Action Button -->
 <button id="convert-btn" class="btn-primary w-full py-4 rounded-xl text-headline-md font-headline-md font-bold uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(87,27,193,0.5)] hover:scale-[1.01]">
@@ -468,6 +469,7 @@
         formData.append('vocal_volume', vocal_volume);
         formData.append('beat_volume', beat_volume);
         formData.append('is_uvr', is_uvr);
+        formData.append('output_folder', '');
         
         // Hardcoded defaults for other fields not in this UI version
         formData.append('file_index', '');
@@ -506,22 +508,33 @@
         }
     });
 
+
+
     async function downloadAudio(url) {
         try {
-            logger('Đang chuẩn bị tải file...', false);
-            const res = await fetch(url);
-            const blob = await res.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = 'kanezuki_converted.wav';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(blobUrl);
-            logger('Đã tải nhạc thành công!', false);
+            logger('Đang mở hộp thoại chọn nơi lưu tệp của Windows...', false);
+            const formData = new FormData();
+            formData.append('audio_url', url);
+            formData.append('default_name', 'kanezuki_converted.wav');
+            
+            const res = await fetch('/api/save_audio', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            
+            if (data.status === 'success') {
+                logger(`Đã lưu tệp tin thành công tại:<br><strong class="text-tertiary">${data.saved_path}</strong>`, false);
+                alert(`Lưu tệp tin thành công!\nĐường dẫn: ${data.saved_path}`);
+            } else if (data.status === 'cancelled') {
+                logger('Đã hủy bỏ lưu tệp tin.', false);
+            } else {
+                logger(`Lỗi lưu tệp tin: ${data.error}`, true);
+                alert(`Lỗi lưu tệp: ${data.error}`);
+            }
         } catch (err) {
-            logger('Lỗi tải file: ' + err.message, true);
+            logger('Lỗi kết nối khi tải file: ' + err.message, true);
+            alert('Lỗi kết nối khi tải file: ' + err.message);
         }
     }
     window.downloadAudio = downloadAudio;
