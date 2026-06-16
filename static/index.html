@@ -482,9 +482,17 @@
             if (data.audio_url) {
                 logger('Biến đổi thành công! Đang tải audio...', false);
                 logger(data.info);
-                // Create an audio player in the UI
+                // Create an audio player in the UI with a custom Download button
                 const playerContainer = document.querySelector('.bg-surface-container.p-2');
-                playerContainer.innerHTML = `<audio controls src="${data.audio_url}" class="w-full h-8"></audio>`;
+                playerContainer.innerHTML = `
+                    <div class="flex flex-col sm:flex-row items-center gap-3 w-full">
+                        <audio controls src="${data.audio_url}" class="flex-grow h-8 w-full sm:w-auto"></audio>
+                        <button onclick="downloadAudio('${data.audio_url}')" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-primary hover:opacity-90 text-on-primary text-label-md font-bold transition-all flex items-center justify-center gap-1 shadow-lg cursor-pointer">
+                            <span class="material-symbols-outlined text-[18px]">download</span>
+                            Tải về máy
+                        </button>
+                    </div>
+                `;
                 playerContainer.classList.remove('opacity-50', 'pointer-events-none');
             } else {
                 logger(`Lỗi: ${data.error}`, true);
@@ -497,6 +505,26 @@
             icon.innerText = 'play_circle';
         }
     });
+
+    async function downloadAudio(url) {
+        try {
+            logger('Đang chuẩn bị tải file...', false);
+            const res = await fetch(url);
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = 'kanezuki_converted.wav';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(blobUrl);
+            logger('Đã tải nhạc thành công!', false);
+        } catch (err) {
+            logger('Lỗi tải file: ' + err.message, true);
+        }
+    }
+    window.downloadAudio = downloadAudio;
 </script>
 
 </body></html>
