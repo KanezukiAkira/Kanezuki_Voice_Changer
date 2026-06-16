@@ -127,11 +127,7 @@ class Config:
                 strr = f.read().replace("true", "false")
             with open(f"configs/{config_file}", "w") as f:
                 f.write(strr)
-        with open("infer/modules/train/preprocess.py", "r") as f:
-            strr = f.read().replace("3.7", "3.0")
-        with open("infer/modules/train/preprocess.py", "w") as f:
-            f.write(strr)
-        print("overwrite preprocess and configs.json")
+        print("overwrite configs.json for fp32")
 
     def device_config(self) -> tuple:
         if torch.cuda.is_available():
@@ -161,10 +157,7 @@ class Config:
                 + 0.4
             )
             if self.gpu_mem <= 4:
-                with open("infer/modules/train/preprocess.py", "r") as f:
-                    strr = f.read().replace("3.7", "3.0")
-                with open("infer/modules/train/preprocess.py", "w") as f:
-                    f.write(strr)
+                pass
         elif self.has_mps():
             logger.info("No supported Nvidia GPU found")
             self.device = self.instead = "mps"
