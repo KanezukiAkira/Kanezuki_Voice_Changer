@@ -42,7 +42,6 @@ assets/
 # Backups and temp files
 src_backup/
 update_temp.zip
-cookies.txt
 test_*.py
 view_*.py
 remove_*.py
