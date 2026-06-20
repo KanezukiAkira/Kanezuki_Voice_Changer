@@ -4,6 +4,7 @@ import base64
 import os
 import shutil
 import sys
+import py_compile
 
 # Đảm bảo in được tiếng Việt
 sys.stdout.reconfigure(encoding='utf-8')
@@ -24,3 +25,8 @@ for f in critical_files:
         with open(f, 'w', encoding='utf-8') as file:
             file.write(obfuscated)
         print(f'[BUILD] Ma hoa co ban thanh cong: {f}')
+
+# Biên dịch launcher.py thành launcher.pyc để RVC-Launcher.exe chạy được
+if os.path.exists('launcher.py'):
+    py_compile.compile('launcher.py', 'launcher.pyc')
+    print('[BUILD] Bien dich launcher.pyc thanh cong')
