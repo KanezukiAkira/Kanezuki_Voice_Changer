@@ -65,7 +65,21 @@ def uvr(model_name, inp_root, save_root_vocal, paths, save_root_ins, agg, format
                     os.path.basename(inp_path),
                 )
                 import subprocess
-                cmd = ["ffmpeg", "-i", inp_path, "-vn", "-acodec", "pcm_s16le", "-ac", "2", "-ar", "44100", tmp_path, "-y"]
+
+                cmd = [
+                    "ffmpeg",
+                    "-i",
+                    inp_path,
+                    "-vn",
+                    "-acodec",
+                    "pcm_s16le",
+                    "-ac",
+                    "2",
+                    "-ar",
+                    "44100",
+                    tmp_path,
+                    "-y",
+                ]
                 try:
                     subprocess.run(cmd, capture_output=True, check=True)
                 except Exception:
