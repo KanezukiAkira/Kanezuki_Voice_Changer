@@ -9,7 +9,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
 # Define files to obfuscate
-critical_files = ["infer_web.py", "rvc_backend.py"]
+critical_files = ["infer_web.py", "rvc_backend.py", "launcher.py", "run_backend.py"]
 runtime_py = os.path.join("runtime", "python.exe")
 pyarmor_path = os.path.join("runtime", "Scripts", "pyarmor.exe")
 

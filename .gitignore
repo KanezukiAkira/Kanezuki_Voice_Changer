@@ -51,3 +51,5 @@ dump_*.py
 
 # Allow PyArmor runtime binaries
 !pyarmor_runtime_*/*.pyd
+pyarmor_runtime_*
+

